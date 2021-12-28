@@ -48,6 +48,8 @@ char* substitute_escapes(char* text)
     substitutions_end['*']   = "\e[22m";
     substitutions_begin['~'] = "\e[2m";   // dim
     substitutions_end['~']   = "\e[22m";
+    substitutions_begin['#'] = "\e[3m";   // italic
+    substitutions_end['#']   = "\e[23m";
     substitutions_begin['_'] = "\e[4m";   // underline
     substitutions_end['_']   = "\e[24m";
     substitutions_begin['@'] = "\e[5m";   // blink
@@ -56,6 +58,8 @@ char* substitute_escapes(char* text)
     substitutions_end['$']   = "\e[27m";
     substitutions_begin['`'] = "\e[8m";   // hidden
     substitutions_end['`']   = "\e[28m";
+    substitutions_begin['%'] = "\e[9m";   // strikethrough
+    substitutions_end['%']   = "\e[29m";
 
     int result_len = 0;
     for (char* text_i = text; *text_i; text_i++)
