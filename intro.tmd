@@ -1,0 +1,43 @@
+#_TERMINAL MARKDOWN_#
+
+*Terminal markdown* is an easy way to format text on a terminal window.
+It supports the following styles:
+
+      #BOLD#
+      ~DIM~
+      *ITALIC*
+      _UNDERLINED_
+      @BLINKING@
+      $INVERTED$
+      `HIDDEN` ~(hidden)~
+      %STRIKETHROUGH%
+      ^RED^
+      |GREEN|
+
+Note that some of the above styles are not supported universally.
+
+#_How to Use_#
+
+To style text, wrap it in a special character. The special characters
+and their associated styles are
+
+      \# : #BOLD#
+      \~ : ~DIM~
+      \* : *ITALIC*
+      \_ : _UNDERLINED_
+      \@ : @BLINKING@
+      \$ : $INVERTED$
+      \` : `HIDDEN` ~(hidden)~
+      \% : %STRIKETHROUGH%
+      \^ : ^RED^
+      \| : |GREEN|
+
+The backslash can be used to escape these special characters.
+
+#_Examples_#
+
+      _original_                    _rendered_
+
+      \#Hello\# \~world\~!            #Hello# ~world~!
+      \*\_\^Hello\^ \%world\%\_\!\*        *_^Hello^ %world%_!*
+      \|Hello \\\| world\|!           |Hello \| world|!
