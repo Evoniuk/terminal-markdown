@@ -36,6 +36,35 @@ char* file_contents(char* filename)
     return buffer;
 }
 
+int result_len(char* text, char** substitutions_begin, char** substitutions_end)
+{
+    int result_len = 0;
+    bool status[128] = {0};
+
+    for (; *text; text++)
+    {
+        if (*text == '\\') // skip past escaped chars
+        {
+            text += 2;
+            result_len++;
+        }
+
+        if (substitutions_begin[*text])
+        {
+            status[*text] = !status[*text];
+            result_len += strlen(
+                status[*text] ?
+                    substitutions_begin[*text] :
+                    substitutions_end[*text]
+            );
+        }
+
+        else result_len++;
+    }
+
+    return result_len + 1;
+}
+
 char* substitute_escapes(char* text)
 {
     // status tells whether text is currently in special state
@@ -61,31 +90,7 @@ char* substitute_escapes(char* text)
     substitutions_begin['%'] = "\e[9m";   // strikethrough
     substitutions_end['%']   = "\e[29m";
 
-    int result_len = 0;
-    for (char* text_i = text; *text_i; text_i++)
-    {
-        if (*text_i == '\\') // skip past escaped chars
-        {
-            text_i += 2;
-            result_len++;
-        }
-
-        if (substitutions_begin[*text_i])
-        {
-            status[*text_i] = !status[*text_i];
-            result_len += strlen(
-                status[*text_i] ?
-                    substitutions_begin[*text_i] :
-                    substitutions_end[*text_i]
-            );
-        }
-
-        else result_len++;
-    }
-
-    memset(status, 0, sizeof status); // reset status array
-
-    char* result = calloc(result_len + 1, sizeof(char));
+    char* result = calloc(result_len(text, substitutions_begin, substitutions_end), sizeof(char));
 
     for (char* result_i = result; *text; text++)
     {
