@@ -89,6 +89,8 @@ char* substitute_escapes(char* text)
     substitutions_end['`']   = "\e[28m";
     substitutions_begin['%'] = "\e[9m";   // strikethrough
     substitutions_end['%']   = "\e[29m";
+    substitutions_begin['^'] = "\e[31m";  // red
+    substitutions_end['^']   = "\e[39m";
 
     char* result = calloc(result_len(text, substitutions_begin, substitutions_end), sizeof(char));
 
