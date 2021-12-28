@@ -24,7 +24,7 @@ Note that some of the above styles are not supported everywhere. Particulary ita
 To get started, type the following into the terminal:
 
 ```zsh
-% git clone https://github.com/evoniuk/terminal-markdown.git
+% git clone https://github.com/Evoniuk/terminal-markdown.git
 % cd terminal-markdown
 % make tmd && ./tmd intro.tmd
 ```
