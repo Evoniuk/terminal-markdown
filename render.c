@@ -73,12 +73,12 @@ char* substitute_escapes(char* text)
     char* substitutions_begin[128] = {0};
     char* substitutions_end[128]   = {0};
 
-    substitutions_begin['*'] = "\e[1m";   // bold
-    substitutions_end['*']   = "\e[22m";
+    substitutions_begin['#'] = "\e[1m";   // bold
+    substitutions_end['#']   = "\e[22m";
     substitutions_begin['~'] = "\e[2m";   // dim
     substitutions_end['~']   = "\e[22m";
-    substitutions_begin['#'] = "\e[3m";   // italic
-    substitutions_end['#']   = "\e[23m";
+    substitutions_begin['*'] = "\e[3m";   // italic
+    substitutions_end['*']   = "\e[23m";
     substitutions_begin['_'] = "\e[4m";   // underline
     substitutions_end['_']   = "\e[24m";
     substitutions_begin['@'] = "\e[5m";   // blink
@@ -91,6 +91,8 @@ char* substitute_escapes(char* text)
     substitutions_end['%']   = "\e[29m";
     substitutions_begin['^'] = "\e[31m";  // red
     substitutions_end['^']   = "\e[39m";
+    substitutions_begin['|'] = "\e[32m";  // green
+    substitutions_end['|']   = "\e[39m";
 
     char* result = calloc(result_len(text, substitutions_begin, substitutions_end), sizeof(char));
 
