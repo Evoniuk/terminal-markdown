@@ -8,7 +8,11 @@ char* substitute_escapes(char* text);
 
 int main(int argc, char** argv)
 {
-    if (argc != 2) return 1;
+    if (argc != 2)
+    {
+        fprintf(stderr, "%s", substitute_escapes("#^ERROR:^ You have to provide a file.#\n"));
+        return 1;
+    }
 
     char* text   = file_contents(argv[1]);
     char* result = substitute_escapes(text);
