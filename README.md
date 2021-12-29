@@ -2,7 +2,7 @@
 
 ## What is it?
 
-Terminal markdown is a simple formatting tool for text displayed on a UNIX-like terminal. It allows you to easily create text that is
+Terminal markdown is a simple formatting tool for displayng text on a UNIX-like terminal emulator. It allows you to easily create text that is
 
 - Bold
 - Dim
@@ -15,13 +15,13 @@ Terminal markdown is a simple formatting tool for text displayed on a UNIX-like 
 - Red
 - Green
 
-when displayed on a terminal.
+and render it on a terminal emulator.
 
-Note that some of the above styles are not supported everywhere. Particulary italic, blinking, hidden, and strikethrough.
+Note that some of the above styles are not supported everywhere. Particulary italic, blinking, and hidden.
 
 ## How do I try it?
 
-To get started, type the following into the terminal:
+To get started, type the following into your terminal:
 
 ```zsh
 % git clone https://github.com/Evoniuk/terminal-markdown.git
@@ -30,6 +30,21 @@ To get started, type the following into the terminal:
 ```
 
 If everything works right, this will display a brief tutorial on how to use terminal markdown.
+
+### Instalation
+
+To install `tmd` for global use, run the following from the `terminal-markdown` directory:
+
+**For zsh:**
+```zsh
+% echo 'function tmd() {`pwd`/tmd $*}' >> ~/.zshrc
+```
+
+**For bash:**
+```bash
+% echo 'function tmd() {`pwd`/tmd $*}' >> ~/.bashrc
+```
+
 
 ## How do I use it?
 

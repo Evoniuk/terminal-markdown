@@ -38,7 +38,7 @@ char* file_contents(char* filename)
 
 int result_len(char* text, char** substitutions_begin, char** substitutions_end)
 {
-    int result_len = 0;
+    int  result_len  = 0;
     bool status[128] = {0};
 
     for (; *text; text++)
@@ -112,8 +112,8 @@ char* substitute_escapes(char* text)
             substitutions_end[*text];
 
         if (substitution)
-            for (int i = 0; i < strlen(substitution); i++)
-                *result_i++ = substitution[i];
+            while (*substitution)
+                *result_i++ = *substitution++;
 
         else *result_i++ = *text;
     }
