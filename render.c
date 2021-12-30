@@ -3,47 +3,13 @@
 #include <string.h>
 #include <stdbool.h>
 
-char* file_contents(char* filename);
+char* file_contents(FILE* infile);
 char* substitute_escapes(char* text);
 bool not_ASCII(char* text);
+void format_and_print(char* text, char* filename);
 
 int main(int argc, char** argv)
 {
-    if (argc == 1) // read from stdin
-    {
-        FILE* infile = stdin;
-
-        if (infile == NULL)
-        {
-            fprintf(stderr, "Couldn't read file.\n");
-            exit(1);
-        }
-
-        fseek(infile, 0L, SEEK_END);
-        long numbytes = ftell(infile);
-        fseek(infile, 0L, SEEK_SET);
-
-        char* buffer = calloc(numbytes + 1, sizeof(char));
-
-        fread(buffer, sizeof(char), numbytes, infile);
-        fclose(infile);
-
-        char* original_text = buffer;
-
-        if(not_ASCII(original_text))
-        {
-            fprintf(stderr, "Sorry, text in file '%s' is not ASCII encoded.\n", *argv);
-            free(original_text);
-        }
-
-        char* formatted_text = substitute_escapes(original_text);
-        free(original_text);
-
-        puts(formatted_text);
-        free(formatted_text);
-        return 0;
-    }
-
     if (argc == 2 && !strcmp(argv[1], "--help")) // help message
     {
         char* help_lines[] = {
@@ -72,44 +38,41 @@ int main(int argc, char** argv)
         return 0;
     }
 
-    for (argv++; *argv; argv++) // advance to first arg, then iterate through
+    if (argc == 1) // read from stdin if no files provided
     {
-        char* original_text  = file_contents(*argv);
-        if(not_ASCII(original_text))
-        {
-            fprintf(stderr, "Sorry, text in file '%s' is not ASCII encoded.\n", *argv);
-            free(original_text);
-            continue;
-        }
-
-        char* formatted_text = substitute_escapes(original_text);
+        char* original_text = file_contents(stdin);
+        format_and_print(original_text, "stdin");
         free(original_text);
+    }
 
-        puts(formatted_text);
-        free(formatted_text);
+    else for (argv++; *argv; argv++) // advance to first arg, then iterate through
+    {
+        FILE* file = fopen(*argv, "r");
+        char* original_text = file_contents(file);
+        fclose(file);
+
+        format_and_print(original_text, *argv);
+        free(original_text);
     }
 
     return 0;
 }
 
-char* file_contents(char* filename)
+char* file_contents(FILE* file)
 {
-    FILE* infile = fopen(filename, "r");
-
-    if (infile == NULL)
+    if (file == NULL)
     {
         fprintf(stderr, "Couldn't read file.\n");
         exit(1);
     }
 
-    fseek(infile, 0L, SEEK_END);
-    long numbytes = ftell(infile);
-    fseek(infile, 0L, SEEK_SET);
+    fseek(file, 0L, SEEK_END);
+    long numbytes = ftell(file);
+    fseek(file, 0L, SEEK_SET);
 
     char* buffer = calloc(numbytes + 1, sizeof(char));
 
-    fread(buffer, sizeof(char), numbytes, infile);
-    fclose(infile);
+    fread(buffer, sizeof(char), numbytes, file);
 
     return buffer;
 }
@@ -120,6 +83,22 @@ bool not_ASCII(char* text)
         if (*text < 0)
             return 1;
     return 0;
+}
+
+void format_and_print(char* text, char* filename)
+{
+    if(not_ASCII(text))
+    {
+        char* error = substitute_escapes("#^Error:^# ");
+        fprintf(stderr, "%s", error);
+        fprintf(stderr, "Sorry, text in file '%s' is not ASCII encoded.\n", filename);
+        free(error);
+        return;
+    }
+
+    char* formatted_text = substitute_escapes(text);
+    puts(formatted_text);
+    free(formatted_text);
 }
 
 int result_len(char* text, char** substitutions_begin, char** substitutions_end)
