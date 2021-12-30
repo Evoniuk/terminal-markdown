@@ -4,8 +4,9 @@
 #include <stdbool.h>
 
 char* file_contents(FILE* file, char* filename);
-char* substitute_escapes(char* text);
+char* read_stdin();
 void format_and_print(char* text, char* filename);
+char* substitute_escapes(char* text);
 
 int main(int argc, char** argv)
 {
@@ -39,7 +40,7 @@ int main(int argc, char** argv)
 
     if (argc == 1) // read from stdin if no files provided
     {
-        char* original_text = file_contents(stdin, "stdin");
+        char* original_text = read_stdin();
         format_and_print(original_text, "stdin");
         free(original_text);
     }
@@ -58,6 +59,26 @@ int main(int argc, char** argv)
     }
 
     return 0;
+}
+
+char* read_stdin()
+{
+    int text_capacity = 8;
+    int text_index    = 0;
+    char* text = calloc(text_capacity, sizeof(char));
+
+    for (char c; (c = getchar()) != EOF; text_index++)
+    {
+        if (text_index == text_capacity)
+        {
+            text_capacity *= 2;
+            text = realloc(text, text_capacity);
+        }
+
+        text[text_index] = c;
+    }
+
+    return text;
 }
 
 char* file_contents(FILE* file, char* filename)
@@ -85,7 +106,7 @@ void format_and_print(char* text, char* filename)
 {
     for (char* text_i = text; *text_i; text_i++) // validate ASCII
     {
-        if (*text_i < 0)
+        if ((unsigned char) *text_i >= 128)
         {
             char* error = substitute_escapes("#^Error:^#");
             fprintf(stderr, "%s text in file '%s' is not ASCII encoded.\n", error, filename);
