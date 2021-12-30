@@ -83,7 +83,7 @@ For the internals, all that's going on is a substitution of certain characters w
 The first time the programs sees a special character, it substitutes it for an escape sequence according to the following:
 
 ```
-Special Character       Escape Sequence         Style to begin
+Special Character       Escape Sequence         Style to Begin
 -----------------       ---------------         --------------
 #                       \e[1m                   bold
 ~                       \e[2m                   dim
@@ -102,7 +102,7 @@ This escape sequence tells the terminal to start the associated style.
 The next time the special character is seen, this substitution takes place:
 
 ```
-Special Character       Escape Sequence         Style to end
+Special Character       Escape Sequence         Style to End
 -----------------       ---------------         ------------
 #                       \e[22m                  bold
 ~                       \e[22m                  dim
