@@ -82,7 +82,7 @@ char* file_contents(char* filename)
 int result_len(char* text, char** substitutions_begin, char** substitutions_end)
 {
     int  result_len  = 0;
-    bool status[128] = {0};
+    bool status[256] = {0};
 
     for (; *text; text++)
     {
@@ -110,8 +110,7 @@ int result_len(char* text, char** substitutions_begin, char** substitutions_end)
 
 char* substitute_escapes(char* text)
 {
-    // status tells whether text is currently in special state
-    bool status[128] = {0};
+    bool status[256] = {0}; // tell whether text is currently in special state
 
     char* substitutions_begin[128] = {0};
     char* substitutions_end[128]   = {0};
