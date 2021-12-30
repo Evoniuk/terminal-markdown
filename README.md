@@ -52,7 +52,7 @@ To install `tmd` for global use, run the following from the `terminal-markdown` 
 
 **For bash:**
 ```bash
-% echo 'function tmd() {`pwd`/tmd $*}' >> ~/.bashrc
+$ echo 'function tmd() {`pwd`/tmd $*}' >> ~/.bashrc
 ```
 
 ## How do I use it?
