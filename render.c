@@ -10,24 +10,36 @@ int main(int argc, char** argv)
 {
     if (argc < 2)
     {
-        fprintf(stderr, "%s", substitute_escapes("#^ERROR:^ You must provide a file.#\n"));
+        char* error_text = substitute_escapes("#^ERROR:^ You must provide a file.#\n");
+        fprintf(stderr, "%s", error_text);
+        free(error_text);
         return 1;
     }
 
     if (argc == 2 && !strcmp(argv[1], "--help")) // help message
     {
-        puts(substitute_escapes("The special characters are:"));
-        puts(substitute_escapes("    \\# : #BOLD#"));
-        puts(substitute_escapes("    \\~ : ~DIM~"));
-        puts(substitute_escapes("    \\* : *ITALIC*"));
-        puts(substitute_escapes("    \\_ : _UNDERLINED_"));
-        puts(substitute_escapes("    \\@ : @BLINKING@"));
-        puts(substitute_escapes("    \\$ : $INVERTED$"));
-        puts(substitute_escapes("    \\` : `HIDDEN` ~(hidden)~"));
-        puts(substitute_escapes("    \\% : %STRIKETHROUGH%"));
-        puts(substitute_escapes("    \\^ : ^RED^"));
-        puts(substitute_escapes("    \\| : |GREEN|"));
-        puts(substitute_escapes("Use a backslash to escape these characters."));
+        char* help_lines[] = {
+            "The special characters are:",
+            "    \\# : #BOLD#",
+            "    \\~ : ~DIM~",
+            "    \\* : *ITALIC*",
+            "    \\_ : _UNDERLINED_",
+            "    \\@ : @BLINKING@",
+            "    \\$ : $INVERTED$",
+            "    \\` : `HIDDEN` ~(hidden)~",
+            "    \\% : %STRIKETHROUGH%",
+            "    \\^ : ^RED^",
+            "    \\| : |GREEN|",
+            "Use a backslash to escape these characters.",
+            NULL,
+        };
+
+        for (int i = 0; help_lines[i]; i++)
+        {
+            char* formatted_line = substitute_escapes(help_lines[i]);
+            puts(formatted_line);
+            free(formatted_line);
+        }
 
         return 0;
     }
