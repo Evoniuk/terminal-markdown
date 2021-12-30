@@ -14,15 +14,14 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    argv++; // advance to first argument
-    for (; *argv; argv++)
+    for (argv++; *argv; argv++) // advance to first arg, then iterate through
     {
-        char* text   = file_contents(*argv);
-        char* result = substitute_escapes(text);
-        free(text);
+        char* original_text  = file_contents(*argv);
+        char* formatted_text = substitute_escapes(original_text);
+        free(original_text);
 
-        printf("%s", result);
-        free(result);
+        printf("%s", formatted_text);
+        free(formatted_text);
     }
 
     return 0;
@@ -31,6 +30,12 @@ int main(int argc, char** argv)
 char* file_contents(char* filename)
 {
     FILE* infile = fopen(filename, "r");
+
+    if (infile == NULL)
+    {
+        fprintf(stderr, "Couldn't read file.\n");
+        exit(1);
+    }
 
     fseek(infile, 0L, SEEK_END);
     long numbytes = ftell(infile);
