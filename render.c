@@ -5,6 +5,7 @@
 
 char* file_contents(char* filename);
 char* substitute_escapes(char* text);
+bool not_ASCII(char* text);
 
 int main(int argc, char** argv)
 {
@@ -47,6 +48,13 @@ int main(int argc, char** argv)
     for (argv++; *argv; argv++) // advance to first arg, then iterate through
     {
         char* original_text  = file_contents(*argv);
+        if(not_ASCII(original_text))
+        {
+            fprintf(stderr, "Sorry, text in file '%s' is not ASCII encoded.\n", *argv);
+            free(original_text);
+            continue;
+        }
+
         char* formatted_text = substitute_escapes(original_text);
         free(original_text);
 
@@ -79,10 +87,18 @@ char* file_contents(char* filename)
     return buffer;
 }
 
+bool not_ASCII(char* text)
+{
+    for (; *text; text++)
+        if (*text < 0)
+            return 1;
+    return 0;
+}
+
 int result_len(char* text, char** substitutions_begin, char** substitutions_end)
 {
     int  result_len  = 0;
-    bool status[256] = {0};
+    bool status[128] = {0};
 
     for (; *text; text++)
     {
