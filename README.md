@@ -45,7 +45,6 @@ To install `tmd` for global use, run the following from the `terminal-markdown` 
 % echo 'function tmd() {`pwd`/tmd $*}' >> ~/.bashrc
 ```
 
-
 ## How do I use it?
 
 Terminal markdown works much like markdown. Text is styled by wrapping it in special characters.
@@ -74,3 +73,47 @@ So, for example, if you put the following in a file named `hello.tmd`
 and run `tmd hello.tmd`, you'll get the following displayed on the terminal:
 
 > **Hello** *World*!
+
+You can display multiples files by calling `tmd file1 file2 ...`.
+
+## How does it work?
+
+For the internals, all that's going on is a substitution of certain characters with certain escape sequences.
+
+The first time the programs sees a special character, it substitutes it for an escape sequence according to the following:
+
+```
+Special Character       Escape Sequence         Style to begin
+-----------------       ---------------         --------------
+#                       \e[1m                   bold
+~                       \e[2m                   dim
+*                       \e[3m                   italic
+_                       \e[4m                   underline
+@                       \e[5m                   blink
+$                       \e[7m                   inverted
+`                       \e[8m                   hidden
+%                       \e[9m                   strikethrough
+^                       \e[31m                  red
+|                       \e[32m                  green
+```
+
+This escape sequence tells the terminal to start the associated style.
+
+The next time the special character is seen, this substitution takes place:
+
+```
+Special Character       Escape Sequence         Style to end
+-----------------       ---------------         ------------
+#                       \e[22m                  bold
+~                       \e[22m                  dim
+*                       \e[23m                  italic
+_                       \e[24m                  underline
+@                       \e[25m                  blink
+$                       \e[27m                  inverted
+`                       \e[28m                  hidden
+%                       \e[29m                  strikethrough
+^                       \e[39m                  red
+|                       \e[39m                  green
+```
+
+This escape sequence tells the terminal to end the associated style.
