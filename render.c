@@ -50,14 +50,18 @@ int main(int argc, char** argv)
     else for (argv++; *argv; argv++) // advance to first arg, then iterate through
     {
         FILE* file = fopen(*argv, "r");
-        char* original_text = file_contents(file, *argv);
-        fclose(file);
 
-        if (original_text)
+        if (file == NULL)
         {
-            format_and_print(original_text, *argv);
-            free(original_text);
+            fprintf(stderr, "%s couldn't read file '%s'.\n", ERROR, *argv);
+            continue;
         }
+
+        char* original_text = file_contents(file, *argv);
+        format_and_print(original_text, *argv);
+
+        free(original_text);
+        fclose(file);
     }
 
     return 0;
@@ -85,18 +89,11 @@ char* read_stdin()
 
 char* file_contents(FILE* file, char* filename)
 {
-    if (file == NULL)
-    {
-        fprintf(stderr, "%s couldn't read file '%s'.\n", ERROR, filename);
-        return NULL;
-    }
-
     fseek(file, 0L, SEEK_END);
     long numbytes = ftell(file);
     fseek(file, 0L, SEEK_SET);
 
     char* buffer = calloc(numbytes + 1, sizeof(char));
-
     fread(buffer, sizeof(char), numbytes, file);
 
     return buffer;
