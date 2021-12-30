@@ -71,7 +71,7 @@ char* read_stdin()
 
     for (char c; (c = getchar()) != EOF; text_index++)
     {
-        if (text_index == text_capacity)
+        if (text_index == text_capacity - 1) // -1 to guarantee a NULL at the end
         {
             text_capacity *= 2;
             text = realloc(text, text_capacity);
