@@ -17,6 +17,16 @@ Terminal markdown is a simple formatting tool for displayng text on a UNIX-like 
 
 and render it on a terminal emulator.
 
+It will render a file like this:
+
+![before](before.png)
+
+like this:
+
+![after](after.png)
+
+(In this screenshot you can't see the `BLINKING` text actually blink, and the `HIDDEN` text isn't hidden because of my particular terminal emulator.)
+
 Note that some of the above styles are not supported everywhere. Particulary italic, blinking, and hidden.
 
 ## How do I try it?
