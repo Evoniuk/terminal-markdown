@@ -9,12 +9,39 @@ bool not_ASCII(char* text);
 
 int main(int argc, char** argv)
 {
-    if (argc < 2)
+    if (argc == 1) // read from stdin
     {
-        char* error_text = substitute_escapes("#^ERROR:^ You must provide a file.#\n");
-        fprintf(stderr, "%s", error_text);
-        free(error_text);
-        return 1;
+        FILE* infile = stdin;
+
+        if (infile == NULL)
+        {
+            fprintf(stderr, "Couldn't read file.\n");
+            exit(1);
+        }
+
+        fseek(infile, 0L, SEEK_END);
+        long numbytes = ftell(infile);
+        fseek(infile, 0L, SEEK_SET);
+
+        char* buffer = calloc(numbytes + 1, sizeof(char));
+
+        fread(buffer, sizeof(char), numbytes, infile);
+        fclose(infile);
+
+        char* original_text = buffer;
+
+        if(not_ASCII(original_text))
+        {
+            fprintf(stderr, "Sorry, text in file '%s' is not ASCII encoded.\n", *argv);
+            free(original_text);
+        }
+
+        char* formatted_text = substitute_escapes(original_text);
+        free(original_text);
+
+        puts(formatted_text);
+        free(formatted_text);
+        return 0;
     }
 
     if (argc == 2 && !strcmp(argv[1], "--help")) // help message
