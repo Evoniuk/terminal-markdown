@@ -8,6 +8,8 @@ char* read_stdin();
 void format_and_print(char* text, char* filename);
 char* substitute_escapes(char* text);
 
+char* ERROR = "\e[1m\e[31mError:\e[39m\e[22m"; // bold and red 'Error:' text
+
 int main(int argc, char** argv)
 {
     if (argc == 2 && !strcmp(argv[1], "--help")) // help message
@@ -85,9 +87,7 @@ char* file_contents(FILE* file, char* filename)
 {
     if (file == NULL)
     {
-        char* error = substitute_escapes("#^Error:^#");
-        fprintf(stderr, "%s couldn't read file '%s'.\n", error, filename);
-        free(error);
+        fprintf(stderr, "%s couldn't read file '%s'.\n", ERROR, filename);
         return NULL;
     }
 
@@ -108,9 +108,7 @@ void format_and_print(char* text, char* filename)
     {
         if ((unsigned char) *text_i >= 128)
         {
-            char* error = substitute_escapes("#^Error:^#");
-            fprintf(stderr, "%s text in file '%s' is not ASCII encoded.\n", error, filename);
-            free(error);
+            fprintf(stderr, "%s text in file '%s' is not ASCII encoded.\n", ERROR, filename);
             return;
         }
     }
