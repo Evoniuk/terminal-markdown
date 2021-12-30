@@ -14,13 +14,31 @@ int main(int argc, char** argv)
         return 1;
     }
 
+    if (argc == 2 && !strcmp(argv[1], "--help")) // help message
+    {
+        puts(substitute_escapes("The special characters are:"));
+        puts(substitute_escapes("    \\# : #BOLD#"));
+        puts(substitute_escapes("    \\~ : ~DIM~"));
+        puts(substitute_escapes("    \\* : *ITALIC*"));
+        puts(substitute_escapes("    \\_ : _UNDERLINED_"));
+        puts(substitute_escapes("    \\@ : @BLINKING@"));
+        puts(substitute_escapes("    \\$ : $INVERTED$"));
+        puts(substitute_escapes("    \\` : `HIDDEN` ~(hidden)~"));
+        puts(substitute_escapes("    \\% : %STRIKETHROUGH%"));
+        puts(substitute_escapes("    \\^ : ^RED^"));
+        puts(substitute_escapes("    \\| : |GREEN|"));
+        puts(substitute_escapes("Use a backslash to escape these characters."));
+
+        return 0;
+    }
+
     for (argv++; *argv; argv++) // advance to first arg, then iterate through
     {
         char* original_text  = file_contents(*argv);
         char* formatted_text = substitute_escapes(original_text);
         free(original_text);
 
-        printf("%s", formatted_text);
+        puts(formatted_text);
         free(formatted_text);
     }
 
