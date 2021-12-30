@@ -41,20 +41,6 @@ To get started, type the following into your terminal:
 
 If everything works right, this will display a brief tutorial on how to use terminal markdown.
 
-### Instalation
-
-To install `tmd` for global use, run the following from the `terminal-markdown` directory:
-
-**For zsh:**
-```zsh
-% echo 'function tmd() {`pwd`/tmd $*}' >> ~/.zshrc
-```
-
-**For bash:**
-```bash
-$ echo 'function tmd() {`pwd`/tmd $*}' >> ~/.bashrc
-```
-
 ## How do I use it?
 
 Terminal markdown works much like markdown. Text is styled by wrapping it in special characters.
