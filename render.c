@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-char* file_contents(FILE* infile);
+char* file_contents(FILE* file, char* filename);
 char* substitute_escapes(char* text);
 void format_and_print(char* text, char* filename);
 
@@ -39,7 +39,7 @@ int main(int argc, char** argv)
 
     if (argc == 1) // read from stdin if no files provided
     {
-        char* original_text = file_contents(stdin);
+        char* original_text = file_contents(stdin, "stdin");
         format_and_print(original_text, "stdin");
         free(original_text);
     }
@@ -47,22 +47,27 @@ int main(int argc, char** argv)
     else for (argv++; *argv; argv++) // advance to first arg, then iterate through
     {
         FILE* file = fopen(*argv, "r");
-        char* original_text = file_contents(file);
+        char* original_text = file_contents(file, *argv);
         fclose(file);
 
-        format_and_print(original_text, *argv);
-        free(original_text);
+        if (original_text)
+        {
+            format_and_print(original_text, *argv);
+            free(original_text);
+        }
     }
 
     return 0;
 }
 
-char* file_contents(FILE* file)
+char* file_contents(FILE* file, char* filename)
 {
     if (file == NULL)
     {
-        fprintf(stderr, "Couldn't read file.\n");
-        exit(1);
+        char* error = substitute_escapes("#^Error:^#");
+        fprintf(stderr, "%s couldn't read file '%s'.\n", error, filename);
+        free(error);
+        return NULL;
     }
 
     fseek(file, 0L, SEEK_END);
