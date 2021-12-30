@@ -86,6 +86,13 @@ and run `tmd hello.tmd`, you'll get the following displayed on the terminal:
 
 You can display multiples files by calling `tmd file1 file2 ...`.
 
+You can also pipe files like so:
+
+```zsh
+% cat intro.tmd | tmd
+% curl https://raw.githubusercontent.com/Evoniuk/terminal-markdown/master/intro.tmd | tmd
+```
+
 ## How does it work?
 
 For the internals, all that's going on is a substitution of certain characters with certain escape sequences.
