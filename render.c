@@ -5,8 +5,8 @@
 
 char* file_contents(FILE* file, char* filename);
 char* read_stdin();
-void format_and_print(char* text, char* filename);
 char* substitute_escapes(char* text);
+void  format_and_print(char* text, char* filename);
 
 char* ERROR = "\e[1m\e[31mError:\e[39m\e[22m"; // bold and red 'Error:' text
 
@@ -99,26 +99,11 @@ char* file_contents(FILE* file, char* filename)
     return buffer;
 }
 
-void format_and_print(char* text, char* filename)
-{
-    for (char* text_i = text; *text_i; text_i++) // validate ASCII
-    {
-        if ((unsigned char) *text_i >= 128)
-        {
-            fprintf(stderr, "%s text in file '%s' is not ASCII encoded.\n", ERROR, filename);
-            return;
-        }
-    }
-
-    char* formatted_text = substitute_escapes(text);
-    puts(formatted_text);
-    free(formatted_text);
-}
 
 int result_len(char* text, char** substitutions_begin, char** substitutions_end)
 {
-    int  result_len  = 0;
-    bool status[128] = {0};
+    int  result_len   = 0;
+    bool status[0x80] = {0};
 
     for (; *text; text++)
     {
@@ -146,10 +131,10 @@ int result_len(char* text, char** substitutions_begin, char** substitutions_end)
 
 char* substitute_escapes(char* text)
 {
-    bool status[256] = {0}; // tell whether text is currently in special state
+    bool status[0x80] = {0}; // tell whether text is currently in special state
 
-    char* substitutions_begin[128] = {0};
-    char* substitutions_end[128]   = {0};
+    char* substitutions_begin[0x80] = {0};
+    char* substitutions_end[0x80]   = {0};
 
     substitutions_begin['#'] = "\e[1m";   // bold
     substitutions_end['#']   = "\e[22m";
@@ -197,4 +182,20 @@ char* substitute_escapes(char* text)
     }
 
     return result;
+}
+
+void format_and_print(char* text, char* filename)
+{
+    for (char* text_i = text; *text_i; text_i++) // validate ASCII
+    {
+        if ((unsigned char) *text_i >= 0x80)
+        {
+            fprintf(stderr, "%s text in file '%s' is not ASCII encoded.\n", ERROR, filename);
+            return;
+        }
+    }
+
+    char* formatted_text = substitute_escapes(text);
+    puts(formatted_text);
+    free(formatted_text);
 }
