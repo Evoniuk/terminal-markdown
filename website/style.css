@@ -1,0 +1,53 @@
+body {
+    line-height: 1.5;
+    font-size: 16px;
+    font-family: 'Andale Mono', monospace;
+    max-width: 40rem;
+    background-color: rgb(14, 11, 220);
+    color: white;
+    margin: auto;
+}
+
+pre {
+    font-family: 'Andale Mono', monospace;
+}
+
+ul {
+    list-style: none;
+}
+
+.dim {
+    color: rgb(149, 147, 235);;
+}
+
+.blink {
+    animation: blinker 1.2s step-start infinite;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+.invert {
+    background-color: white;
+    color: rgb(14, 11, 220);
+    display: inline;
+}
+
+.strikethrough {
+    text-decoration: line-through;
+}
+
+.red {
+    color: red;
+}
+
+.green {
+    color: rgb(65, 184, 65);
+}
