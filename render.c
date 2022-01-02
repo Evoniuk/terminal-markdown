@@ -36,11 +36,9 @@ int main(int argc, char** argv)
             puts(formatted_line);
             free(formatted_line);
         }
-
-        return 0;
     }
 
-    if (argc == 1) // read from stdin if no files provided
+    else if (argc == 1) // read from stdin if no files provided
     {
         char* original_text = read_stdin();
         format_and_print(original_text, "stdin");
