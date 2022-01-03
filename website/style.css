@@ -1,15 +1,21 @@
+:root {
+    --fonts: 'Andale Mono', 'Courier New', 'Courier', 'Menlo', 'Monaco', monospace;
+    --background: rgb(14, 11, 220);
+    --foreground: white;
+}
+
 body {
     line-height: 1.5;
     font-size: 14px;
-    font-family: 'Andale Mono', monospace;
+    font-family: var(--fonts);
     max-width: 40rem;
-    background-color: rgb(14, 11, 220);
-    color: white;
+    background-color: var(--background);
+    color: var(--foreground);
     margin: auto;
 }
 
 pre {
-    font-family: 'Andale Mono', monospace;
+    font-family: var(--fonts);
 }
 
 ul {
@@ -35,8 +41,8 @@ ul {
 }
 
 .invert {
-    background-color: white;
-    color: rgb(14, 11, 220);
+    background-color: var(--foreground);
+    color: var(--background);
     display: inline;
 }
 
