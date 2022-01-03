@@ -3,6 +3,8 @@
 #include <string.h>
 #include <stdbool.h>
 
+#define ASCII_MAX 0x80
+
 char* file_contents(FILE* file, char* filename);
 char* read_stdin();
 char* substitute_escapes(char* text);
@@ -100,8 +102,8 @@ char* file_contents(FILE* file, char* filename)
 
 int result_len(char* text, char** substitutions_begin, char** substitutions_end)
 {
-    int  result_len   = 0;
-    bool status[0x80] = {0};
+    int  result_len        = 0;
+    bool status[ASCII_MAX] = {0};
 
     for (; *text; text++)
     {
@@ -129,10 +131,10 @@ int result_len(char* text, char** substitutions_begin, char** substitutions_end)
 
 char* substitute_escapes(char* text)
 {
-    bool status[0x80] = {0}; // tell whether text is currently in special state
+    bool status[ASCII_MAX] = {0}; // tell whether text is currently in special state
 
-    char* substitutions_begin[0x80] = {0};
-    char* substitutions_end[0x80]   = {0};
+    char* substitutions_begin[ASCII_MAX] = {0};
+    char* substitutions_end[ASCII_MAX]   = {0};
 
     substitutions_begin['#'] = "\e[1m";   // bold
     substitutions_end['#']   = "\e[22m";
@@ -186,7 +188,7 @@ void format_and_print(char* text, char* filename)
 {
     for (char* text_i = text; *text_i; text_i++) // validate ASCII
     {
-        if ((unsigned char) *text_i >= 0x80)
+        if ((unsigned char) *text_i >= ASCII_MAX)
         {
             fprintf(stderr, "%s text in file '%s' is not ASCII encoded.\n", ERROR, filename);
             return;
