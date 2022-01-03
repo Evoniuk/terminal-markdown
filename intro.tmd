@@ -39,5 +39,5 @@ The backslash can be used to escape these special characters.
       _original_                    _rendered_
 
       \#Hello\# \~world\~!            #Hello# ~world~!
-      \*\_\^Hello\^ \%world\%\_\!\*        *_^Hello^ %world%_!*
+      \*\_\^Hello\^ \%world\%\_!\*        *_^Hello^ %world%_!*
       \|Hello \\\| world\|!           |Hello \| world|!

@@ -60,23 +60,27 @@ $ Inverted
 | Green
 ```
 
-So, for example, if you put the following in a file named `hello.tmd`
+So, for example, if you type the following into your terminal:
 
-```
-#Hello# *World*!
+```zsh
+% echo '#Hello# *World*!' | tmd
 ```
 
-and run `tmd hello.tmd`, you'll get the following displayed on the terminal:
+you'll get the following displayed on the terminal:
 
 > **Hello** *World*!
 
-You can display multiples files by calling `tmd file1 file2 ...`.
-
-You can also pipe files like so:
+Piping allows combination with other programs:
 
 ```zsh
 % cat intro.tmd | tmd
 % curl https://raw.githubusercontent.com/Evoniuk/terminal-markdown/master/intro.tmd | tmd
+```
+
+For longer text it might be easier to put your text into files and call tmd like so:
+
+```zsh
+% tmd file1 file2 ...
 ```
 
 ## How does it work?
@@ -120,3 +124,5 @@ $                       \e[27m                  inverted
 ```
 
 This escape sequence tells the terminal to end the associated style.
+
+A backslash skips over the interpretation of the susbsequent character.
