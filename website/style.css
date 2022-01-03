@@ -1,6 +1,6 @@
 body {
     line-height: 1.5;
-    font-size: 16px;
+    font-size: 14px;
     font-family: 'Andale Mono', monospace;
     max-width: 40rem;
     background-color: rgb(14, 11, 220);
@@ -45,9 +45,14 @@ ul {
 }
 
 .red {
-    color: red;
+    color: rgb(238, 12, 12);
 }
 
 .green {
-    color: rgb(65, 184, 65);
+    color: rgb(12, 238, 12);
+}
+
+a {
+    color: inherit;
+    text-decoration: inherit;
 }

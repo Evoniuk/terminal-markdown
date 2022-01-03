@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="./style.css">
+
+    <title>Terminal Markdown</title>
+</head>
+<body>
+    <p class="underline"><b>TERMINAL MARKDOWN</b></p>
+
+    <p class=""><b>
+        <a href="../index.html" class="underline">What is it?</a>
+        <a href="./how-to-try.html" class="underline"><b>How do I try it?</b></a>
+        <a href="./how-to-use.html" class="underline"><b>How do I use it?</b></a>
+        <a href="./how-it-works.html" class="green"><b>How does it work?</b></a>
+        <a href="./examples.html" class="underline"><b>Examples</b></a>
+    </b></p>
+
+    <p>For the internals, all that's going on is a substitution of certain characters with certain escape sequences.</p>
+
+    <p>The first time the programs sees a special character, it substitutes it for an escape sequence according to the following:</p>
+
+    <pre>
+    <span class="underline">Special Character</span>       <span class="underline">Escape Sequence</span>         <span class="underline">Style to Begin</span>
+    #                       \e[1m                   bold
+    ~                       \e[2m                   dim
+    *                       \e[3m                   italic
+    _                       \e[4m                   underline
+    @                       \e[5m                   blink
+    $                       \e[7m                   inverted
+    `                       \e[8m                   hidden
+    %                       \e[9m                   strikethrough
+    ^                       \e[31m                  red
+    |                       \e[32m                  green</pre>
+
+    <p>This escape sequence tells the terminal to start the associated style.</p>
+
+    <p>The next time the special character is seen, this substitution takes place:</p>
+
+    <pre>
+    <span class="underline">Special Character</span>       <span class="underline">Escape Sequence</span>         <span class="underline">Style to Begin</span>
+    #                       \e[22m                  bold
+    ~                       \e[22m                  dim
+    *                       \e[23m                  italic
+    _                       \e[24m                  underline
+    @                       \e[25m                  blink
+    $                       \e[27m                  inverted
+    `                       \e[28m                  hidden
+    %                       \e[29m                  strikethrough
+    ^                       \e[39m                  red
+    |                       \e[39m                  green</pre>
+
+    <p>This escape sequence tells the terminal to end the associated style.</p>
+
+    <p>A backslash skips over the interpretation of the susbsequent character.</p>
+</body>

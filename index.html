@@ -12,7 +12,13 @@
 <body>
     <p class="underline"><b>TERMINAL MARKDOWN</b></p>
 
-    <p class="underline"><b>What is it?</b></p>
+    <p class=""><b>
+        <a href="./index.html" class="green">What is it?</a>
+        <a href="./website/how-to-try.html" class="underline"><b>How do I try it?</b></a>
+        <a href="./website/how-to-use.html" class="underline"><b>How do I use it?</b></a>
+        <a href="./website/how-it-works.html" class="underline"><b>How does it work?</b></a>
+        <a href="./website/examples.html" class="underline"><b>Examples</b></a>
+    </b></p>
 
     <p>Terminal markdown is a simple formatting tool for displayng text on a UNIX-like terminal emulator. It allows you to easily create text that is</p>
 
@@ -23,117 +29,14 @@
         <li><div class="underline">Underlined</div></li>
         <li><div class="blink">Blinking</div></li>
         <li><div class="invert">Inverted</div></li>
-        <li>Hidden</li>
+        <li>Hidden <span class="dim">(but you know, actually hidden)</span></li>
         <li><div class="strikethrough">Striked through</div></li>
         <li><div class="red">Red</div></li>
         <li><div class="green">Green</div></li>
     </ul>
 
-<p>and render it on a terminal emulator.</p>
+    <p>and render it on a terminal emulator.</p>
 
-<p>Note that some of the above styles are not supported everywhere. Particulary italic, blinking, and hidden.</p>
-
-<p class="underline"><b>How do I try it?</b></p>
-
-<p>To get started, type the following into your terminal:</p>
-
-<pre>
-    % git clone https://github.com/Evoniuk/terminal-markdown.git
-    % cd terminal-markdown
-    % make tmd && ./tmd intro.tmd
-</pre>
-
-<p>If everything works right, this will display a brief tutorial on how to use terminal markdown.</p>
-
-<p class="underline"><b>How do I use it?</b></p>
-
-<p>Terminal markdown works much like markdown. Text is styled by wrapping it in special characters.</p>
-
-<p>The association of characters to styles is</p>
-
-<ul>
-    <li># <b>Bold</b></li>
-    <li>~ <span class="dim">Dim</span></li>
-    <li>* <i>Italic</i></li>
-    <li>_ <span class="underline">Underlined</span></li>
-    <li>@ <span class="blink">Blinking</span></li>
-    <li>$ <span class="invert">Inverted</span></li>
-    <li>` Hidden</li>
-    <li>% <span class="strikethrough">Striked through</span></li>
-    <li>^ <span class="red">Red</span></li>
-    <li>| <span class="green">Green</span></li>
-</ul>
-
-<p>So, for example, if you put the following in a file named `hello.tmd`</p>
-
-<pre>
-    $Hello$ *|World|*!
-</pre>
-
-<p>and run `tmd hello.tmd`, you'll get the following displayed on the terminal:</p>
-
-<pre>
-    <span class="invert">Hello</span> <i><span class="green">World</span></i>!
-</pre>
-
-<p>You can display multiples files by calling `tmd file1 file2 ...`.</p>
-
-<p>You can also pipe files like so:</p>
-
-<pre>
-    % cat intro.tmd | tmd
-    % curl https://raw.githubusercontent.com/Evoniuk/terminal-markdown/master/intro.tmd | tmd
-</pre>
-
-<p class="underline"><b>How does it work?</b></p>
-
-<p>For the internals, all that's going on is a substitution of certain characters with certain escape sequences.</p>
-
-<p>The first time the programs sees a special character, it substitutes it for an escape sequence according to the following:</p>
-
-<pre>
-    Special Character       Escape Sequence         Style to Begin
-    -----------------       ---------------         --------------
-    #                       \e[1m                   bold
-    ~                       \e[2m                   dim
-    *                       \e[3m                   italic
-    _                       \e[4m                   underline
-    @                       \e[5m                   blink
-    $                       \e[7m                   inverted
-    `                       \e[8m                   hidden
-    %                       \e[9m                   strikethrough
-    ^                       \e[31m                  red
-    |                       \e[32m                  green
-</pre>
-
-<p>This escape sequence tells the terminal to start the associated style.</p>
-
-<p>The next time the special character is seen, this substitution takes place:</p>
-
-<pre>
-    Special Character       Escape Sequence         Style to End
-    -----------------       ---------------         ------------
-    #                       \e[22m                  bold
-    ~                       \e[22m                  dim
-    *                       \e[23m                  italic
-    _                       \e[24m                  underline
-    @                       \e[25m                  blink
-    $                       \e[27m                  inverted
-    `                       \e[28m                  hidden
-    %                       \e[29m                  strikethrough
-    ^                       \e[39m                  red
-    |                       \e[39m                  green
-</pre>
-
-<p>This escape sequence tells the terminal to end the associated style.</p>
-
-<p class="underline"><b>Examples</b></p>
-<pre>
-    <span class="underline">original</span>                    <span class="underline">rendered</span>
-
-    #Hello# ~world~!            <b>Hello</b> <span class="dim">world</span>!
-    *_^Hello^ %world%_!*        <i><span class="underline"><span class="red">Hello</span> <span class="strikethrough">world</span></span>!</i>
-    |Hello \| world|!           <span class="green">Hello | world</span>!
-</pre>
+    <p class="dim">Note that some of the above styles are not supported everywhere. Particulary italic, blinking, and hidden.</p>
 </body>
 </html>

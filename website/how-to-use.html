@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="./style.css">
+
+    <title>Terminal Markdown</title>
+</head>
+<body>
+    <p class="underline"><b>TERMINAL MARKDOWN</b></p>
+
+    <p class=""><b>
+        <a href="../index.html" class="underline">What is it?</a>
+        <a href="./how-to-try.html" class="underline"><b>How do I try it?</b></a>
+        <a href="./how-to-use.html" class="green"><b>How do I use it?</b></a>
+        <a href="./how-it-works.html" class="underline"><b>How does it work?</b></a>
+        <a href="./examples.html" class="underline"><b>Examples</b></a>
+    </b></p>
+
+    <p>Terminal markdown works much like markdown. Text is styled by wrapping it in special characters.</p>
+
+    <p>The association of characters to styles is</p>
+
+    <ul>
+        <li># <b>Bold</b></li>
+        <li>~ <span class="dim">Dim</span></li>
+        <li>* <i>Italic</i></li>
+        <li>_ <span class="underline">Underlined</span></li>
+        <li>@ <span class="blink">Blinking</span></li>
+        <li>$ <span class="invert">Inverted</span></li>
+        <li>` Hidden</li>
+        <li>% <span class="strikethrough">Striked through</span></li>
+        <li>^ <span class="red">Red</span></li>
+        <li>| <span class="green">Green</span></li>
+    </ul>
+
+    <p>So, for example, if you type the following into your terminal:</p>
+
+    <pre>
+    <span class="green">%</span> echo '$Hello$ *|World|*!' | tmd</pre>
+
+    <p>you'll get the following displayed on the terminal:</p>
+
+    <pre>
+    <span class="invert">Hello</span> <i><span class="green">World</span></i>!</pre>
+
+    <p>Piping allows combination with other programs:</p>
+
+    <pre>
+    <span class="green">%</span> cat intro.tmd | tmd
+    <span class="green">%</span> curl https://raw.githubusercontent.com/Evoniuk/terminal-markdown/master/intro.tmd | tmd</pre>
+
+    <p>For longer text it might be easier to put your text into files and call tmd like so:</p>
+
+    <pre>
+    <span class="green">%</span> tmd file1 file2 ...</pre>
+</body>
