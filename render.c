@@ -5,8 +5,8 @@
 
 #define ASCII_MAX 0x80
 
-char* file_contents(FILE* file);
 char* read_stdin();
+char* file_contents(FILE* file);
 char* substitute_escapes(char* text);
 void  format_and_print(char* text, char* filename);
 
