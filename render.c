@@ -5,7 +5,7 @@
 
 #define ASCII_MAX 0x80
 
-char* file_contents(FILE* file, char* filename);
+char* file_contents(FILE* file);
 char* read_stdin();
 char* substitute_escapes(char* text);
 void  format_and_print(char* text, char* filename);
@@ -57,7 +57,7 @@ int main(int argc, char** argv)
             continue;
         }
 
-        char* original_text = file_contents(file, *argv);
+        char* original_text = file_contents(file);
         format_and_print(original_text, *argv);
 
         free(original_text);
@@ -87,7 +87,7 @@ char* read_stdin()
     return text;
 }
 
-char* file_contents(FILE* file, char* filename)
+char* file_contents(FILE* file)
 {
     fseek(file, 0L, SEEK_END);
     long numbytes = ftell(file);
