@@ -196,6 +196,6 @@ void format_and_print(char* text, char* filename)
     }
 
     char* formatted_text = substitute_escapes(text);
-    puts(formatted_text);
+    printf("%s", formatted_text);
     free(formatted_text);
 }
