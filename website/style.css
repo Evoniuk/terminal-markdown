@@ -62,3 +62,8 @@ a {
     color: inherit;
     text-decoration: inherit;
 }
+
+hr {
+    border: none;
+    border-top: 1px solid var(--foreground);
+}
