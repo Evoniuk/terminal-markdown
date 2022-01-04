@@ -1,5 +1,3 @@
-// TODO: add ASCII error handling to substitute_escapes
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
