@@ -5,8 +5,6 @@
 
 #define ASCII_MAX 0x80
 
-char* ERROR = "\e[1m\e[31mError:\e[39m\e[22m"; // bold and red 'Error:' text
-
 int result_len(char* text, char** substitutions_begin, char** substitutions_end)
 {
     int  result_len        = 0;
@@ -36,21 +34,17 @@ int result_len(char* text, char** substitutions_begin, char** substitutions_end)
     return result_len + 1;
 }
 
-bool is_ASCII(char* text)
-{
-    for (; *text; text++)
-        if ((unsigned char) *text >= ASCII_MAX)
-            return false;
-
-    return true;
-}
 
 char* substitute_escapes(char* text)
 {
-    if (!is_ASCII(text))
+    for (char* text_i = text; *text_i; text_i++)
     {
-        fprintf(stderr, "%s text is not ASCII encoded.\n", ERROR);
-        return NULL;
+        if ((unsigned char) *text_i >= ASCII_MAX)
+        {
+            char* ERROR = "\e[1m\e[31mError:\e[39m\e[22m"; // bold and red 'Error:' text
+            fprintf(stderr, "%s text is not ASCII encoded.\n", ERROR);
+            return NULL;
+        }
     }
 
     bool status[ASCII_MAX] = {0}; // tell whether text is currently in special state
@@ -106,15 +100,10 @@ char* substitute_escapes(char* text)
     return result;
 }
 
-void format_and_print(char* text, char* filename)
+void format_and_print(char* text)
 {
-    if (!is_ASCII(text))
-    {
-        fprintf(stderr, "%s text in file '%s' is not ASCII encoded.\n", ERROR, filename);
-        return;
-    }
-
     char* formatted_text = substitute_escapes(text);
+    if (!formatted_text) return;
     printf("%s", formatted_text);
     free(formatted_text);
 }

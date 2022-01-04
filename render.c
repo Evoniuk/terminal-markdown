@@ -38,7 +38,7 @@ int main(int argc, char** argv)
     else if (argc == 1) // read from stdin if no files provided
     {
         char* original_text = read_stdin();
-        format_and_print(original_text, "stdin");
+        format_and_print(original_text);
         free(original_text);
     }
 
@@ -54,7 +54,7 @@ int main(int argc, char** argv)
         }
 
         char* original_text = file_contents(file);
-        format_and_print(original_text, *argv);
+        format_and_print(original_text);
 
         free(original_text);
         fclose(file);
