@@ -83,6 +83,10 @@ For longer text it might be easier to put your text into files and call tmd like
 % tmd file1 file2 ...
 ```
 
+### Use it as a C library
+
+To make use of tmd within your own programs, you can `#include tmd.h` and compile with `tmd.c`.
+
 ## How does it work?
 
 For the internals, all that's going on is a substitution of certain characters with certain escape sequences.
