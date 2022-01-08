@@ -20,18 +20,15 @@ int result_len(char* text, char** substitutions_begin, char** substitutions_end)
 
         if (*text == '^' || *text == '|')
         {
+            if (*text == text[1]) continue;
+
             char escape = *text++;
-            int  offset = escape ==
-                '^' ? 1 :
-                '|' ? 2 :
-                0; // unreachable
+            int  offset = escape == '^' ? 1 : 2;
             if (substitutions_begin[ASCII_MAX * offset + *text])
-            {
-                result_len += strlen(substitutions_begin[ASCII_MAX * offset + *text]);
-                text++;
-            }
+                result_len += strlen(substitutions_begin[ASCII_MAX * offset + *text++]);
 
             else result_len += strlen(substitutions_end[escape]);
+            // TODO: handle backslashes following ^ or |
         }
 
         if (substitutions_begin[*text])
@@ -73,7 +70,7 @@ void init_substitutions(char** substitutions_begin, char** substitutions_end)
     substitutions_end['^'] = "\e[39m";    // font color
     substitutions_end['|'] = "\e[49m";    // background
 
-    // TEXT COLORS
+    // text colors
     substitutions_begin[ASCII_MAX + 'r'] = "\e[31m"; // red
     substitutions_begin[ASCII_MAX + 'g'] = "\e[32m"; // green
     substitutions_begin[ASCII_MAX + 'y'] = "\e[33m"; // yellow
@@ -88,7 +85,7 @@ void init_substitutions(char** substitutions_begin, char** substitutions_end)
     substitutions_begin[ASCII_MAX + 'M'] = "\e[95m"; // bright magenta
     substitutions_begin[ASCII_MAX + 'C'] = "\e[96m"; // bright cyan
 
-    // BACKGROUNDS
+    // backgrounds
     substitutions_begin[ASCII_MAX * 2 + 'r'] = "\e[41m"; // red
     substitutions_begin[ASCII_MAX * 2 + 'g'] = "\e[42m"; // green
     substitutions_begin[ASCII_MAX * 2 + 'y'] = "\e[43m"; // yellow
@@ -137,10 +134,7 @@ char* substitute_escapes(char* text)
             if (*text == text[1]) continue;
 
             char escape  = *text++;
-            int  offset = escape ==
-                '^' ? 1 :
-                '|' ? 2 :
-                0; // unreachable
+            int  offset = escape == '^' ? 1 : 2;
 
             char* substitution = substitutions_begin[ASCII_MAX * offset + *text] ?
                 substitutions_begin[ASCII_MAX * offset + *text] :
@@ -149,6 +143,10 @@ char* substitute_escapes(char* text)
             while (*substitution)
                 *result_i++ = *substitution++;
 
+            if (*text == '\\') // TODO: fix problem with stuff like '|\|'
+            {
+
+            }
             if (!substitutions_begin[ASCII_MAX * offset + *text]) *result_i++ = *text;
 
             continue;
