@@ -18,23 +18,20 @@ int result_len(char* text, char** substitutions_begin, char** substitutions_end)
             result_len++;
         }
 
-        if (*text == '^')
+        if (*text == '^' || *text == '|')
         {
-            text++;
-            result_len += strlen("\e[39m");
-            if (substitutions_begin[ASCII_MAX + *text])
-                text++;
-        }
-
-        if (*text == '|')
-        {
-            text++;
-            if (substitutions_begin[ASCII_MAX * 2 + *text])
+            char escape = *text++;
+            int  offset = escape ==
+                '^' ? 1 :
+                '|' ? 2 :
+                0; // unreachable
+            if (substitutions_begin[ASCII_MAX * offset + *text])
             {
-                result_len += strlen(substitutions_begin[ASCII_MAX * 2 + *text]);
+                result_len += strlen(substitutions_begin[ASCII_MAX * offset + *text]);
                 text++;
             }
-            else result_len += strlen("\e49m");
+
+            else result_len += strlen(substitutions_end[escape]);
         }
 
         if (substitutions_begin[*text])
@@ -72,6 +69,11 @@ void init_substitutions(char** substitutions_begin, char** substitutions_end)
     substitutions_begin['%'] = "\e[9m";   // strikethrough
     substitutions_end['%']   = "\e[29m";
 
+    // special end sequences
+    substitutions_end['^'] = "\e[39m";    // font color
+    substitutions_end['|'] = "\e[49m";    // background
+
+    // TEXT COLORS
     substitutions_begin[ASCII_MAX + 'r'] = "\e[31m"; // red
     substitutions_begin[ASCII_MAX + 'g'] = "\e[32m"; // green
     substitutions_begin[ASCII_MAX + 'y'] = "\e[33m"; // yellow
@@ -86,19 +88,20 @@ void init_substitutions(char** substitutions_begin, char** substitutions_end)
     substitutions_begin[ASCII_MAX + 'M'] = "\e[95m"; // bright magenta
     substitutions_begin[ASCII_MAX + 'C'] = "\e[96m"; // bright cyan
 
-    substitutions_begin[ASCII_MAX * 2 + 'r'] = "\e[41m"; // red background
-    substitutions_begin[ASCII_MAX * 2 + 'g'] = "\e[42m"; // green background
-    substitutions_begin[ASCII_MAX * 2 + 'y'] = "\e[43m"; // yellow background
-    substitutions_begin[ASCII_MAX * 2 + 'b'] = "\e[44m"; // blue background
-    substitutions_begin[ASCII_MAX * 2 + 'm'] = "\e[45m"; // magenta background
-    substitutions_begin[ASCII_MAX * 2 + 'c'] = "\e[46m"; // cyan background
+    // BACKGROUNDS
+    substitutions_begin[ASCII_MAX * 2 + 'r'] = "\e[41m"; // red
+    substitutions_begin[ASCII_MAX * 2 + 'g'] = "\e[42m"; // green
+    substitutions_begin[ASCII_MAX * 2 + 'y'] = "\e[43m"; // yellow
+    substitutions_begin[ASCII_MAX * 2 + 'b'] = "\e[44m"; // blue
+    substitutions_begin[ASCII_MAX * 2 + 'm'] = "\e[45m"; // magenta
+    substitutions_begin[ASCII_MAX * 2 + 'c'] = "\e[46m"; // cyan
 
-    substitutions_begin[ASCII_MAX * 2 + 'R'] = "\e[101m"; // bright red background
-    substitutions_begin[ASCII_MAX * 2 + 'G'] = "\e[102m"; // bright green background
-    substitutions_begin[ASCII_MAX * 2 + 'Y'] = "\e[103m"; // bright yellow background
-    substitutions_begin[ASCII_MAX * 2 + 'B'] = "\e[104m"; // bright blue background
-    substitutions_begin[ASCII_MAX * 2 + 'M'] = "\e[105m"; // bright magenta background
-    substitutions_begin[ASCII_MAX * 2 + 'C'] = "\e[106m"; // bright cyan background
+    substitutions_begin[ASCII_MAX * 2 + 'R'] = "\e[101m"; // bright red
+    substitutions_begin[ASCII_MAX * 2 + 'G'] = "\e[102m"; // bright green
+    substitutions_begin[ASCII_MAX * 2 + 'Y'] = "\e[103m"; // bright yellow
+    substitutions_begin[ASCII_MAX * 2 + 'B'] = "\e[104m"; // bright blue
+    substitutions_begin[ASCII_MAX * 2 + 'M'] = "\e[105m"; // bright magenta
+    substitutions_begin[ASCII_MAX * 2 + 'C'] = "\e[106m"; // bright cyan
 }
 
 char* substitute_escapes(char* text)
@@ -129,35 +132,26 @@ char* substitute_escapes(char* text)
             continue;
         }
 
-        if (*text == '^')
+        if (*text == '^' || *text == '|')
         {
-            text++;
+            char escape  = text[0];
+            char control = text[1];
+            int  offset = escape ==
+                '^' ? 1 :
+                '|' ? 2 :
+                0; // unreachable
 
-            char* substitution = substitutions_begin[ASCII_MAX + *text] ?
-                substitutions_begin[ASCII_MAX + *text] :
-                "\e[39m";
+            char* substitution = substitutions_begin[ASCII_MAX * offset + control] ?
+                substitutions_begin[ASCII_MAX * offset + control] :
+                substitutions_end[escape];
 
             while (*substitution)
                 *result_i++ = *substitution++;
 
-            if (!substitutions_begin[ASCII_MAX + *text]) *result_i++ = *text;
+            if (control == escape) continue;
+            if (!substitutions_begin[ASCII_MAX * offset + control]) *result_i++ = control;
 
-            continue;
-        }
-
-        if (*text == '|')
-        {
             text++;
-
-            char* substitution = substitutions_begin[ASCII_MAX*2 + *text] ?
-                substitutions_begin[ASCII_MAX*2 + *text] :
-                "\e[49m";
-
-            while (*substitution)
-                *result_i++ = *substitution++;
-
-            if (!substitutions_begin[ASCII_MAX*2 + *text]) *result_i++ = *text;
-
             continue;
         }
 
