@@ -20,15 +20,21 @@ int result_len(char* text, char** substitutions_begin, char** substitutions_end)
 
         if (*text == '^' || *text == '|')
         {
-            if (*text == text[1]) continue;
+            if (text[0] == text[1]) continue;
 
-            char escape = *text++;
-            int  offset = escape == '^' ? 1 : 2;
-            if (substitutions_begin[ASCII_MAX * offset + *text])
-                result_len += strlen(substitutions_begin[ASCII_MAX * offset + *text++]);
+            char escape  = text[0];
+            char control = text[1];
+            int  offset  = escape == '^' ? 1 : 2;
 
+            if (substitutions_begin[ASCII_MAX * offset + control])
+                result_len += strlen(substitutions_begin[ASCII_MAX * offset + control]);
             else result_len += strlen(substitutions_end[escape]);
-            // TODO: handle backslashes following ^ or |
+
+            if (control == '\\' || substitutions_end[control]) continue;
+            if (!substitutions_begin[ASCII_MAX * offset + control]) result_len++;
+
+            text++;
+            continue;
         }
 
         if (substitutions_begin[*text])
@@ -131,24 +137,24 @@ char* substitute_escapes(char* text)
 
         if (*text == '^' || *text == '|')
         {
-            if (*text == text[1]) continue;
+            if (text[0] == text[1]) continue;
 
-            char escape  = *text++;
-            int  offset = escape == '^' ? 1 : 2;
+            char escape  = text[0];
+            char control = text[1];
+            int  offset  = escape == '^' ? 1 : 2;
 
-            char* substitution = substitutions_begin[ASCII_MAX * offset + *text] ?
-                substitutions_begin[ASCII_MAX * offset + *text] :
+            char* substitution = substitutions_begin[ASCII_MAX * offset + control] ?
+                substitutions_begin[ASCII_MAX * offset + control] :
                 substitutions_end[escape];
 
             while (*substitution)
                 *result_i++ = *substitution++;
 
-            if (*text == '\\') // TODO: fix problem with stuff like '|\|'
-            {
+            if (control == '\\' || substitutions_end[control]) continue;
 
-            }
-            if (!substitutions_begin[ASCII_MAX * offset + *text]) *result_i++ = *text;
+            if (!substitutions_begin[ASCII_MAX * offset + control]) *result_i++ = control;
 
+            text++;
             continue;
         }
 
