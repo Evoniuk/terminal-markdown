@@ -134,24 +134,23 @@ char* substitute_escapes(char* text)
 
         if (*text == '^' || *text == '|')
         {
-            char escape  = text[0];
-            char control = text[1];
+            if (*text == text[1]) continue;
+
+            char escape  = *text++;
             int  offset = escape ==
                 '^' ? 1 :
                 '|' ? 2 :
                 0; // unreachable
 
-            char* substitution = substitutions_begin[ASCII_MAX * offset + control] ?
-                substitutions_begin[ASCII_MAX * offset + control] :
+            char* substitution = substitutions_begin[ASCII_MAX * offset + *text] ?
+                substitutions_begin[ASCII_MAX * offset + *text] :
                 substitutions_end[escape];
 
             while (*substitution)
                 *result_i++ = *substitution++;
 
-            if (control == escape) continue;
-            if (!substitutions_begin[ASCII_MAX * offset + control]) *result_i++ = control;
+            if (!substitutions_begin[ASCII_MAX * offset + *text]) *result_i++ = *text;
 
-            text++;
             continue;
         }
 
