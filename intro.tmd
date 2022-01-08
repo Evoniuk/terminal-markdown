@@ -1,5 +1,4 @@
-#_TERMINAL MARKDOWN_#
-
+$ TERMINAL MARKDOWN                                                   $
 *Terminal markdown* is an easy way to format text on a terminal window.
 It supports the following styles:
 
@@ -9,10 +8,12 @@ It supports the following styles:
       _UNDERLINED_
       @BLINKING@
       $INVERTED$
-      `HIDDEN` ~(hidden)~
+      `HIDDEN`      ~(hidden)~
       %STRIKETHROUGH%
-      ^RED^
-      |GREEN|
+      ^rFO^gRE^yGR^bOU^mND^cS^
+      ^RFO^GRE^YGR^BOU^MND^CS^ ~(bright)~
+      |rBA|gCK|yGR|bOU|mND|cS|
+      |RBA|GCK|YGR|BOU|MND|CS| ~(bright)~
 
 Note that some of the above styles are not supported universally.
 
@@ -21,23 +22,44 @@ Note that some of the above styles are not supported universally.
 To style text, wrap it in a special character. The special characters
 and their associated styles are
 
-      \# : #BOLD#
-      \~ : ~DIM~
-      \* : *ITALIC*
-      \_ : _UNDERLINED_
-      \@ : @BLINKING@
-      \$ : $INVERTED$
-      \` : `HIDDEN` ~(hidden)~
-      \% : %STRIKETHROUGH%
-      \^ : ^RED^
-      \| : |GREEN|
+      \#  : #BOLD#
+      \~  : ~DIM~
+      \*  : *ITALIC*
+      \_  : _UNDERLINED_
+      \@  : @BLINKING@
+      \$  : $INVERTED$
+      \`  : `HIDDEN` ~(hidden)~
+      \%  : %STRIKETHROUGH%
+
+#Colors:#
+
+      \^X : FOREGROUND, where X determines the color:
+            X = r :  ^rRED^         R :  ^RBRIGHT RED^
+            X = g :  ^gGREEN^       G :  ^GBRIGHT GREEN^
+            X = y :  ^yYELLOW^      Y :  ^YBRIGHT YELLOW^
+            X = b :  ^bBLUE^        B :  ^BBRIGHT BLUE^
+            X = c :  ^cCYAN^        C :  ^CBRIGHT CYAN^
+            X = m :  ^mMAGENTA^     M :  ^MBRIGHT MAGENTA^
+      \|X : BACKGROUND, where X determines the color:
+            X = r : |r RED        | R : |R BRIGHT RED     |
+            X = g : |g GREEN      | G : |G BRIGHT GREEN   |
+            X = y : |y YELLOW     | Y : |Y BRIGHT YELLOW  |
+            X = b : |b BLUE       | B : |B BRIGHT BLUE    |
+            X = c : |c CYAN       | C : |C BRIGHT CYAN    |
+            X = m : |m MAGENTA    | M : |M BRIGHT MAGENTA |
+
+|b  |B #Note:# The absense of X in the above cases (that is, if |
+|b  |B something other than the above list of letters appears |
+|b  |B after the \^ or \|) restores the color to default.       |
 
 The backslash can be used to escape these special characters.
 
 #_Examples_#
 
-      _original_                    _rendered_
+      _original_                            _rendered_
 
-      \#Hello\# \~world\~!            #Hello# ~world~!
-      \*\_\^Hello\^ \%world\%\_!\*        *_^Hello^ %world%_!*
-      \|Hello \\\| world\|!           |Hello \| world|!
+      \#Hello\# \~world\~!                    #Hello# ~world~!
+      \*\_\^rHello\^ \%world\%\_!\*               *_^rHello^ %world%_!*
+      \|CHello \\\| \^bworld\^\|!               |CHello \| ^bworld^|!
+      \^CHello \\\^ \|bworld\|\^!               ^CHello \^ |bworld|^!
+      \#\|g\^r Merry\^ \|r\^g Christmas \^\| !\#   #|g^r Merry^ |r^g Christmas ^| !#
