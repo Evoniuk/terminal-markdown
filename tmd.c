@@ -18,12 +18,23 @@ int result_len(char* text, char** substitutions_begin, char** substitutions_end)
             result_len++;
         }
 
-        if (*text == '&')
+        if (*text == '^')
         {
             text++;
             result_len += strlen("\e[39m");
             if (substitutions_begin[ASCII_MAX + *text])
                 text++;
+        }
+
+        if (*text == '|')
+        {
+            text++;
+            if (substitutions_begin[ASCII_MAX * 2 + *text])
+            {
+                result_len += strlen(substitutions_begin[ASCII_MAX * 2 + *text]);
+                text++;
+            }
+            else result_len += strlen("\e49m");
         }
 
         if (substitutions_begin[*text])
@@ -42,24 +53,8 @@ int result_len(char* text, char** substitutions_begin, char** substitutions_end)
     return result_len + 1;
 }
 
-
-char* substitute_escapes(char* text)
+void init_substitutions(char** substitutions_begin, char** substitutions_end)
 {
-    for (char* text_i = text; *text_i; text_i++)
-    {
-        if ((unsigned char) *text_i >= ASCII_MAX)
-        {
-            char* ERROR = "\e[1m\e[31mError:\e[39m\e[22m"; // bold and red 'Error:' text
-            fprintf(stderr, "%s text is not ASCII encoded.\n", ERROR);
-            return NULL;
-        }
-    }
-
-    bool status[ASCII_MAX] = {0}; // tell whether text is currently in special state
-
-    char* substitutions_begin[ASCII_MAX * 2] = {0};
-    char* substitutions_end[ASCII_MAX]   = {0};
-
     substitutions_begin['#'] = "\e[1m";   // bold
     substitutions_end['#']   = "\e[22m";
     substitutions_begin['~'] = "\e[2m";   // dim
@@ -76,10 +71,6 @@ char* substitute_escapes(char* text)
     substitutions_end['`']   = "\e[28m";
     substitutions_begin['%'] = "\e[9m";   // strikethrough
     substitutions_end['%']   = "\e[29m";
-    substitutions_begin['^'] = "\e[31m";  // red
-    substitutions_end['^']   = "\e[39m";
-    substitutions_begin['|'] = "\e[32m";  // green
-    substitutions_end['|']   = "\e[39m";
 
     substitutions_begin[ASCII_MAX + 'r'] = "\e[31m"; // red
     substitutions_begin[ASCII_MAX + 'g'] = "\e[32m"; // green
@@ -87,6 +78,46 @@ char* substitute_escapes(char* text)
     substitutions_begin[ASCII_MAX + 'b'] = "\e[34m"; // blue
     substitutions_begin[ASCII_MAX + 'm'] = "\e[35m"; // magenta
     substitutions_begin[ASCII_MAX + 'c'] = "\e[36m"; // cyan
+
+    substitutions_begin[ASCII_MAX + 'R'] = "\e[91m"; // bright red
+    substitutions_begin[ASCII_MAX + 'G'] = "\e[92m"; // bright green
+    substitutions_begin[ASCII_MAX + 'Y'] = "\e[93m"; // bright yellow
+    substitutions_begin[ASCII_MAX + 'B'] = "\e[94m"; // bright blue
+    substitutions_begin[ASCII_MAX + 'M'] = "\e[95m"; // bright magenta
+    substitutions_begin[ASCII_MAX + 'C'] = "\e[96m"; // bright cyan
+
+    substitutions_begin[ASCII_MAX * 2 + 'r'] = "\e[41m"; // red background
+    substitutions_begin[ASCII_MAX * 2 + 'g'] = "\e[42m"; // green background
+    substitutions_begin[ASCII_MAX * 2 + 'y'] = "\e[43m"; // yellow background
+    substitutions_begin[ASCII_MAX * 2 + 'b'] = "\e[44m"; // blue background
+    substitutions_begin[ASCII_MAX * 2 + 'm'] = "\e[45m"; // magenta background
+    substitutions_begin[ASCII_MAX * 2 + 'c'] = "\e[46m"; // cyan background
+
+    substitutions_begin[ASCII_MAX * 2 + 'R'] = "\e[101m"; // bright red background
+    substitutions_begin[ASCII_MAX * 2 + 'G'] = "\e[102m"; // bright green background
+    substitutions_begin[ASCII_MAX * 2 + 'Y'] = "\e[103m"; // bright yellow background
+    substitutions_begin[ASCII_MAX * 2 + 'B'] = "\e[104m"; // bright blue background
+    substitutions_begin[ASCII_MAX * 2 + 'M'] = "\e[105m"; // bright magenta background
+    substitutions_begin[ASCII_MAX * 2 + 'C'] = "\e[106m"; // bright cyan background
+}
+
+char* substitute_escapes(char* text)
+{
+    for (char* text_i = text; *text_i; text_i++)
+    {
+        if ((unsigned char) *text_i >= ASCII_MAX)
+        {
+            char* ERROR = "\e[1m\e[31mError:\e[39m\e[22m"; // bold and red 'Error:' text
+            fprintf(stderr, "%s text is not ASCII encoded.\n", ERROR);
+            return NULL;
+        }
+    }
+
+    bool status[ASCII_MAX] = {0}; // tell whether text is currently in special state
+
+    char* substitutions_begin[ASCII_MAX * 3] = {0};
+    char* substitutions_end[ASCII_MAX]       = {0};
+    init_substitutions(substitutions_begin, substitutions_end);
 
     char* result = calloc(result_len(text, substitutions_begin, substitutions_end), sizeof(char));
 
@@ -98,7 +129,7 @@ char* substitute_escapes(char* text)
             continue;
         }
 
-        if (*text == '&')
+        if (*text == '^')
         {
             text++;
 
@@ -110,6 +141,22 @@ char* substitute_escapes(char* text)
                 *result_i++ = *substitution++;
 
             if (!substitutions_begin[ASCII_MAX + *text]) *result_i++ = *text;
+
+            continue;
+        }
+
+        if (*text == '|')
+        {
+            text++;
+
+            char* substitution = substitutions_begin[ASCII_MAX*2 + *text] ?
+                substitutions_begin[ASCII_MAX*2 + *text] :
+                "\e[49m";
+
+            while (*substitution)
+                *result_i++ = *substitution++;
+
+            if (!substitutions_begin[ASCII_MAX*2 + *text]) *result_i++ = *text;
 
             continue;
         }
