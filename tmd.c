@@ -18,6 +18,14 @@ int result_len(char* text, char** substitutions_begin, char** substitutions_end)
             result_len++;
         }
 
+        if (*text == '&')
+        {
+            text++;
+            result_len += strlen("\e[39m");
+            if (substitutions_begin[ASCII_MAX + *text])
+                text++;
+        }
+
         if (substitutions_begin[*text])
         {
             status[*text] = !status[*text];
@@ -49,7 +57,7 @@ char* substitute_escapes(char* text)
 
     bool status[ASCII_MAX] = {0}; // tell whether text is currently in special state
 
-    char* substitutions_begin[ASCII_MAX] = {0};
+    char* substitutions_begin[ASCII_MAX * 2] = {0};
     char* substitutions_end[ASCII_MAX]   = {0};
 
     substitutions_begin['#'] = "\e[1m";   // bold
@@ -73,6 +81,13 @@ char* substitute_escapes(char* text)
     substitutions_begin['|'] = "\e[32m";  // green
     substitutions_end['|']   = "\e[39m";
 
+    substitutions_begin[ASCII_MAX + 'r'] = "\e[31m"; // red
+    substitutions_begin[ASCII_MAX + 'g'] = "\e[32m"; // green
+    substitutions_begin[ASCII_MAX + 'y'] = "\e[33m"; // yellow
+    substitutions_begin[ASCII_MAX + 'b'] = "\e[34m"; // blue
+    substitutions_begin[ASCII_MAX + 'm'] = "\e[35m"; // magenta
+    substitutions_begin[ASCII_MAX + 'c'] = "\e[36m"; // cyan
+
     char* result = calloc(result_len(text, substitutions_begin, substitutions_end), sizeof(char));
 
     for (char* result_i = result; *text; text++)
@@ -80,6 +95,22 @@ char* substitute_escapes(char* text)
         if (*text == '\\') // provide '\' as an escape character
         {
             *result_i++ = *++text;
+            continue;
+        }
+
+        if (*text == '&')
+        {
+            text++;
+
+            char* substitution = substitutions_begin[ASCII_MAX + *text] ?
+                substitutions_begin[ASCII_MAX + *text] :
+                "\e[39m";
+
+            while (*substitution)
+                *result_i++ = *substitution++;
+
+            if (!substitutions_begin[ASCII_MAX + *text]) *result_i++ = *text;
+
             continue;
         }
 
