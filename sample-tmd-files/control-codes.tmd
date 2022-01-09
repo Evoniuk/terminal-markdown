@@ -19,9 +19,9 @@ _Binary  _    _Oct_       _Dec_       _Hex_     _Escape Sequence_        _Name  
 000 1110    016       014       0E      \^N                     Shift Out
 000 1111    017       015       0F      \^O                     Shift In
 001 0000    020       016       10      \^P                     Data Link Escape
-001 0001    021       017       11      \^Q                     Device Control 1            #|XON|#
+001 0001    021       017       11      \^Q                     Device Control 1            #^gXON^#
 001 0010    022       018       12      \^R                     Device Control 2
-001 0011    023       019       13      \^S                     Device Control 3            #|XOFF|#
+001 0011    023       019       13      \^S                     Device Control 3            #^rXOFF^#
 001 0100    024       020       14      \^T                     Device Control 4
 001 0101    025       021       15      \^U                     Negative Acknowledgement
 001 0110    026       022       16      \^V                     Synchronous Idle
