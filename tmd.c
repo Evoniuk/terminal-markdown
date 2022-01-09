@@ -77,6 +77,7 @@ void init_substitutions(char** substitutions_begin, char** substitutions_end)
     substitutions_end['|'] = "\e[49m";    // background
 
     // text colors
+    substitutions_begin[ASCII_MAX + 'l'] = "\e[30m"; // black
     substitutions_begin[ASCII_MAX + 'r'] = "\e[31m"; // red
     substitutions_begin[ASCII_MAX + 'g'] = "\e[32m"; // green
     substitutions_begin[ASCII_MAX + 'y'] = "\e[33m"; // yellow
@@ -84,6 +85,7 @@ void init_substitutions(char** substitutions_begin, char** substitutions_end)
     substitutions_begin[ASCII_MAX + 'm'] = "\e[35m"; // magenta
     substitutions_begin[ASCII_MAX + 'c'] = "\e[36m"; // cyan
 
+    substitutions_begin[ASCII_MAX + 'L'] = "\e[97m"; // white
     substitutions_begin[ASCII_MAX + 'R'] = "\e[91m"; // bright red
     substitutions_begin[ASCII_MAX + 'G'] = "\e[92m"; // bright green
     substitutions_begin[ASCII_MAX + 'Y'] = "\e[93m"; // bright yellow
@@ -92,6 +94,7 @@ void init_substitutions(char** substitutions_begin, char** substitutions_end)
     substitutions_begin[ASCII_MAX + 'C'] = "\e[96m"; // bright cyan
 
     // backgrounds
+    substitutions_begin[ASCII_MAX * 2 + 'l'] = "\e[40m"; // black
     substitutions_begin[ASCII_MAX * 2 + 'r'] = "\e[41m"; // red
     substitutions_begin[ASCII_MAX * 2 + 'g'] = "\e[42m"; // green
     substitutions_begin[ASCII_MAX * 2 + 'y'] = "\e[43m"; // yellow
@@ -99,6 +102,7 @@ void init_substitutions(char** substitutions_begin, char** substitutions_end)
     substitutions_begin[ASCII_MAX * 2 + 'm'] = "\e[45m"; // magenta
     substitutions_begin[ASCII_MAX * 2 + 'c'] = "\e[46m"; // cyan
 
+    substitutions_begin[ASCII_MAX * 2 + 'L'] = "\e[107m"; // white
     substitutions_begin[ASCII_MAX * 2 + 'R'] = "\e[101m"; // bright red
     substitutions_begin[ASCII_MAX * 2 + 'G'] = "\e[102m"; // bright green
     substitutions_begin[ASCII_MAX * 2 + 'Y'] = "\e[103m"; // bright yellow
