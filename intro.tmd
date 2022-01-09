@@ -15,7 +15,7 @@ It supports the following styles:
       |rBA|gCK|yGR|bOU|mND|cS|
       |RBA|GCK|YGR|BOU|MND|CS| ~(bright)~
 
-Note that some of the above styles are not supported universally.
+|r  |R #Note:# some of the above styles are not supported universally. |
 
 #_How to Use_#
 
@@ -34,13 +34,15 @@ and their associated styles are
 #Colors:#
 
       \^X : FOREGROUND, where X determines the color:
-            X = r :  ^rRED^         R :  ^RBRIGHT RED^
-            X = g :  ^gGREEN^       G :  ^GBRIGHT GREEN^
-            X = y :  ^yYELLOW^      Y :  ^YBRIGHT YELLOW^
-            X = b :  ^bBLUE^        B :  ^BBRIGHT BLUE^
-            X = c :  ^cCYAN^        C :  ^CBRIGHT CYAN^
-            X = m :  ^mMAGENTA^     M :  ^MBRIGHT MAGENTA^
+            X = l : ^l BLACK      ^ L : ^L WHITE          ^ ~('l' for 'lightness')~
+            X = r : ^r RED        ^ R : ^R BRIGHT RED     ^
+            X = g : ^g GREEN      ^ G : ^G BRIGHT GREEN   ^
+            X = y : ^y YELLOW     ^ Y : ^Y BRIGHT YELLOW  ^
+            X = b : ^b BLUE       ^ B : ^B BRIGHT BLUE    ^
+            X = c : ^c CYAN       ^ C : ^C BRIGHT CYAN    ^
+            X = m : ^m MAGENTA    ^ M : ^M BRIGHT MAGENTA ^
       \|X : BACKGROUND, where X determines the color:
+            X = l : |l BLACK      | L : |L WHITE          |
             X = r : |r RED        | R : |R BRIGHT RED     |
             X = g : |g GREEN      | G : |G BRIGHT GREEN   |
             X = y : |y YELLOW     | Y : |Y BRIGHT YELLOW  |
@@ -56,10 +58,10 @@ The backslash can be used to escape these special characters.
 
 #_Examples_#
 
-      _original_                            _rendered_
+      _original_                         _rendered_
 
-      \#Hello\# \~world\~!                    #Hello# ~world~!
-      \*\_\^rHello\^ \%world\%\_!\*               *_^rHello^ %world%_!*
-      \|CHello \\\| \^bworld\^\|!               |CHello \| ^bworld^|!
-      \^CHello \\\^ \|bworld\|\^!               ^CHello \^ |bworld|^!
-      \#\|g\^r Merry\^ \|r\^g Christmas \^\| !\#   #|g^r Merry^ |r^g Christmas ^| !#
+      \#Hello\# \~world\~!                 #Hello# ~world~!
+      \*\_\^rHello\^ \%world\%\_!\*            *_^rHello^ %world%_!*
+      \|CHello \\\| \^bworld\^\|!            |CHello \| ^bworld^|!
+      \^CHello \\\^ \|bworld\|\^!            ^CHello \^ |bworld|^!
+      \@\|g\^r Merry\^ \|r\^g Christmas \^\|\@  @|g^r Merry^ |r^g Christmas ^|@
