@@ -134,8 +134,8 @@ _                       \e[24m                  underline
 $                       \e[27m                  inverted
 `                       \e[28m                  hidden
 %                       \e[29m                  strikethrough
-^                       \e[39m                  background
-|                       \e[49m                  foreground
+^                       \e[39m                  foreground
+|                       \e[49m                  background
 ```
 
 This escape sequence tells the terminal to end the associated style.
