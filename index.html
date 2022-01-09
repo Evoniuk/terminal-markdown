@@ -10,10 +10,10 @@
     <title>Terminal Markdown</title>
 </head>
 <body>
-    <p class="underline"><b>TERMINAL MARKDOWN</b></p>
+    <p class="invert"><b>TERMINAL MARKDOWN</b></p>
 
     <ul><b>
-        <li>> <a href="./index.html" class="green">What is it?</a></li>
+        <li>> <a href="./index.html" class="g">What is it?</a></li>
         <li>- <a href="./website/how-to-try.html" class="underline"><b>How do I try it?</b></a></li>
         <li>- <a href="./website/how-to-use.html" class="underline"><b>How do I use it?</b></a></li>
         <li>- <a href="./website/how-it-works.html" class="underline"><b>How does it work?</b></a></li>
@@ -27,19 +27,67 @@
 
     <ul>
         <li><b>Bold</b></li>
-        <li><div class="dim">Dim</div></li>
+        <li><span class="dim">Dim</span></li>
         <li><i>Italic</i></li>
-        <li><div class="underline">Underlined</div></li>
-        <li><div class="blink">Blinking</div></li>
-        <li><div class="invert">Inverted</div></li>
+        <li><span class="underline">Underlined</span></li>
+        <li><span class="blink">Blinking</span></li>
+        <li><span class="invert">Inverted</span></li>
         <li>Hidden <span class="dim">(but you know, actually hidden)</span></li>
-        <li><div class="strikethrough">Striked through</div></li>
-        <li><div class="red">Red</div></li>
-        <li><div class="green">Green</div></li>
+        <li><span class="strikethrough">Striked through</span></li>
     </ul>
+
+    <p>As well as text with a foreground and/or background color that is</p>
+
+    <table>
+        <tr>
+            <th class="l">Black</th>
+            <th class="L">White</th>
+            <th class="Bl">Black</th>
+            <th class="BL">White</th>
+        </tr>
+        <tr>
+            <th class="r">Red</th>
+            <th class="R">Bright Red</th>
+            <th class="Br">Red</th>
+            <th class="BR">Bright Red</th>
+        </tr>
+        <tr>
+            <th class="g">Green</th>
+            <th class="G">Bright Green</th>
+            <th class="Bg">Green</th>
+            <th class="BG">Bright Green</th>
+        </tr>
+        <tr>
+            <th class="y">Yellow</th>
+            <th class="Y">Bright Yellow</th>
+            <th class="By">Yellow</th>
+            <th class="BY">Bright Yellow</th>
+        </tr>
+        <tr>
+            <th class="b">Blue</th>
+            <th class="B">Bright Blue</th>
+            <th class="Bb">Blue</th>
+            <th class="BB">Bright Blue</th>
+        </tr>
+        <tr>
+            <th class="m">Magenta</th>
+            <th class="M">Bright Magenta</th>
+            <th class="Bm">Magenta</th>
+            <th class="BM">Bright Magenta</th>
+        </tr>
+        <tr>
+            <th class="c">Cyan</th>
+            <th class="C">Bright Cyan</th>
+            <th class="Bc">Cyan</th>
+            <th class="BC">Bright Cyan</th>
+        </tr>
+    </table>
 
     <p>and render it on a terminal emulator.</p>
 
-    <p class="dim">Note that some of the above styles are not supported everywhere. Particulary italic, blinking, and hidden.</p>
+    <p class="Bc">
+        &nbsp<b>Note:</b> some of the above styles are not supported everywhere,<br>
+        &nbspparticulary italic, blinking, and hidden.
+    </p>
 </body>
 </html>

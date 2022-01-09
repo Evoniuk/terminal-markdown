@@ -10,23 +10,45 @@
     <title>Terminal Markdown</title>
 </head>
 <body>
-    <p class="underline"><b>TERMINAL MARKDOWN</b></p>
+    <p class="invert"><b>TERMINAL MARKDOWN</b></p>
 
     <ul><b>
         <li>- <a href="../index.html" class="underline">What is it?</a></li>
         <li>- <a href="./how-to-try.html" class="underline"><b>How do I try it?</b></a></li>
         <li>- <a href="./how-to-use.html" class="underline"><b>How do I use it?</b></a></li>
         <li>- <a href="./how-it-works.html" class="underline"><b>How does it work?</b></a></li>
-        <li>> <a href="./examples.html" class="green"><b>Examples</b></a></li>
+        <li>> <a href="./examples.html" class="g"><b>Examples</b></a></li>
         <li>- <a href="./code.html" class="underline"><b>The Code</b></a></li>
     </b></ul>
 
     <hr>
 
-    <pre>
-    <span class="underline">original</span>                    <span class="underline">rendered</span>
-
-    #Hello# ~world~!            <b>Hello</b> <span class="dim">world</span>!
-    *_^Hello^ %world%_!*        <i><span class="underline"><span class="red">Hello</span> <span class="strikethrough">world</span></span>!</i>
-    |Hello \| world|!           <span class="green">Hello | world</span>!</pre>
+    <table>
+        <tr>
+            <th><span class="underline">original</span></th>
+            <th><span class="underline">rendered</span></th>
+        </tr>
+        <tr>
+            <th>#Hello# ~world~!</th>
+            <th><b>Hello</b> <span class="dim">world</span>!</th>
+        </tr>
+        <tr>
+            <th>*_^rHello^ %world%_!*</th>
+            <th><i><span class="underline"><span class="r">Hello</span> <span class="strikethrough">world</span></span>!</i></th>
+        </tr>
+        <tr>
+            <th>|CHello \| ^bworld^|!</th>
+            <th><span class="BC">Hello | <span class="b">world</span></span>!</th>
+        </tr>
+        <tr>
+            <th>^CHello \^ |bworld|^!</th>
+            <th><span class="C">Hello ^ <span class="Bb">world</span></span>!</th>
+        </tr>
+        <tr>
+            <th>@|g^r Merry^ |r^g Christmas ^|@</th>
+            <th>
+                <span class="r"><span class="Bg"><span class="blink">&nbspMerry&nbsp</span></span></span><span class="g"><span class="Br"><span class="blink">&nbspChristmas&nbsp</span></span></span>
+            </th>
+        </tr>
+    </table>
 </body>

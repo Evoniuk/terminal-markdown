@@ -10,12 +10,12 @@
     <title>Terminal Markdown</title>
 </head>
 <body>
-    <p class="underline"><b>TERMINAL MARKDOWN</b></p>
+    <p class="invert"><b>TERMINAL MARKDOWN</b></p>
 
     <ul><b>
         <li>- <a href="../index.html" class="underline">What is it?</a></li>
         <li>- <a href="./how-to-try.html" class="underline"><b>How do I try it?</b></a></li>
-        <li>> <a href="./how-to-use.html" class="green"><b>How do I use it?</b></a></li>
+        <li>> <a href="./how-to-use.html" class="g"><b>How do I use it?</b></a></li>
         <li>- <a href="./how-it-works.html" class="underline"><b>How does it work?</b></a></li>
         <li>- <a href="./examples.html" class="underline"><b>Examples</b></a></li>
         <li>- <a href="./code.html" class="underline"><b>The Code</b></a></li>
@@ -36,32 +36,70 @@
         <li>$ <span class="invert">Inverted</span></li>
         <li>` Hidden</li>
         <li>% <span class="strikethrough">Striked through</span></li>
-        <li>^ <span class="red">Red</span></li>
-        <li>| <span class="green">Green</span></li>
+        <li>^X Foreground, where X determines the color</li>
+        <li>|X Background, where X determines the color</li>
     </ul>
+
+    <p>For the colors, the association is:</p>
+
+    <table>
+        <tr>
+            <th>l : <span class="l">Black</span></th>
+            <th>L : <span class="L">White</span></th>
+            <th class="dim">('l' for 'lightness')</th>
+        </tr>
+        <tr>
+            <th>r : <span class="r">Red</span></th>
+            <th>R : <span class="R">Bright Red</span></th>
+        </tr>
+        <tr>
+            <th>g : <span class="g">Green</span></th>
+            <th>G : <span class="G">Bright Green</span></th>
+        </tr>
+        <tr>
+            <th>y : <span class="y">Yellow</span></th>
+            <th>Y : <span class="Y">Bright Yellow</span></th>
+        </tr>
+        <tr>
+            <th>b : <span class="b">Blue</span></th>
+            <th>B : <span class="B">Bright Blue</span></th>
+        </tr>
+        <tr>
+            <th>m : <span class="m">Magenta</span></th>
+            <th>M : <span class="M">Bright Magenta</span></th>
+        </tr>
+        <tr>
+            <th>c : <span class="c">Cyan</span></th>
+            <th>C : <span class="C">Bright Cyan</span></th>
+        </tr>
+    </table>
 
     <p>So, for example, if you type the following into your terminal:</p>
 
     <pre>
-    <span class="green">%</span> echo '$Hello$ *|World|*!' | tmd</pre>
+    <span class="g">%</span> echo '$Hello$ *^yWorld^*!' | tmd</pre>
 
     <p>you'll get the following displayed on the terminal:</p>
 
     <pre>
-    <span class="invert">Hello</span> <i><span class="green">World</span></i>!</pre>
+    <span class="invert">Hello</span> <i><span class="y">World</span></i>!</pre>
 
     <p>Piping allows combination with other programs:</p>
 
     <pre>
-    <span class="green">%</span> cat intro.tmd | tmd
-    <span class="green">%</span> curl https://raw.githubusercontent.com/Evoniuk/terminal-markdown/master/intro.tmd | tmd</pre>
+    <span class="g">%</span> cat intro.tmd | tmd
+    <span class="g">%</span> curl https://raw.githubusercontent.com/Evoniuk/terminal-markdown/master/intro.tmd | tmd</pre>
 
     <p>For longer text it might be easier to put your text into files and call tmd like so:</p>
 
     <pre>
-    <span class="green">%</span> tmd file1 file2 ...</pre>
+    <span class="g">%</span> tmd file1 file2 ...</pre>
 
     <p class="underline"><b>Use as a library</b></p>
 
-    <p>You can use tmd as a C library by #include-ing tmd.h and compiling with tmd.c.</p>
+    <p>You can use tmd as a C library by #include-ing tmd.h and compiling with tmd.c. This provides two functions:</p>
+
+    <p><span class="invert">substitute_escapes(char* string)</span> will, as you might imagine, return a pointer to the escaped version of the string you provide it. The return value of this function will need to be <span class="invert">free</span>d.</p>
+
+    <p><span class="invert">format_and_print(char* text)</span> will format and print the text to stdout. There is no return value for this function.</p>
 </body>
