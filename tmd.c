@@ -137,7 +137,7 @@ char* substitute_escapes(char* text)
 
         if (*text == '^' || *text == '|')
         {
-            if (text[0] == text[1]) continue;
+            while (text[0] == text[1]) text++;
 
             char escape  = text[0];
             char control = text[1];
@@ -150,11 +150,11 @@ char* substitute_escapes(char* text)
             while (*substitution)
                 *result_i++ = *substitution++;
 
-            if (control == '\\' || substitutions_end[control]) continue;
+            if (control != '\\'             &&
+                !substitutions_end[control] &&
+                substitutions_begin[ASCII_MAX * offset + control])
+                text++;
 
-            if (!substitutions_begin[ASCII_MAX * offset + control]) *result_i++ = control;
-
-            text++;
             continue;
         }
 
