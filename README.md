@@ -12,8 +12,17 @@ Terminal markdown is a simple formatting tool for displayng text on a UNIX-like 
 - Inverted
 - Hidden
 - Striked through
+
+As well as text with a foreground and/or background color that is
+
+- Black
+- White
 - Red
 - Green
+- Yellow
+- Blue
+- Magenta
+- Cyan
 
 and render it on a terminal emulator.
 
@@ -56,8 +65,8 @@ _ Underline
 $ Inverted
 ` Hidden
 % Strikethrough
-^ Red
-| Green
+^ Foreground
+| Background
 ```
 
 So, for example, if you type the following into your terminal:
@@ -104,8 +113,10 @@ _                       \e[4m                   underline
 $                       \e[7m                   inverted
 `                       \e[8m                   hidden
 %                       \e[9m                   strikethrough
-^                       \e[31m                  red
-|                       \e[32m                  green
+^x                      \e[30m  - \e[36m        foreground
+^X                      \e[91m  - \e[97m        light foreground
+|x                      \e[40m  - \e[46m        background
+|X                      \e[101m - \e[107m       light background
 ```
 
 This escape sequence tells the terminal to start the associated style.
@@ -123,8 +134,8 @@ _                       \e[24m                  underline
 $                       \e[27m                  inverted
 `                       \e[28m                  hidden
 %                       \e[29m                  strikethrough
-^                       \e[39m                  red
-|                       \e[39m                  green
+^                       \e[39m                  background
+|                       \e[49m                  foreground
 ```
 
 This escape sequence tells the terminal to end the associated style.
