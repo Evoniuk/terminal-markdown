@@ -79,7 +79,7 @@ char* read_stdin()
 
     for (char c; (c = getchar()) != EOF; text_index++)
     {
-        if (text_index == text_capacity - 1) // -1 to guarantee a NULL at the end
+        if (text_index == text_capacity - 1) // -1 to guarantee space for NULL
         {
             text_capacity *= 2;
             text = realloc(text, text_capacity);
@@ -87,6 +87,8 @@ char* read_stdin()
 
         text[text_index] = c;
     }
+
+    text[text_index] = '\0';
 
     return text;
 }
