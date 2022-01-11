@@ -25,29 +25,29 @@ int result_len(char* text, char** substitutions_begin, char** substitutions_end)
 
             char escape  = text[0];
             char control = text[1];
-            int  offset  = escape == '^' ? 1 : 2;
+            int  ctrl_i  = ASCII_MAX * (escape == '^' ? 1 : 2) + control;
 
-            result_len += strlen(substitutions_begin[ASCII_MAX * offset + control] ?
-                substitutions_begin[ASCII_MAX * offset + control] :
+            result_len += strlen(substitutions_begin[ctrl_i] ?
+                substitutions_begin[ctrl_i] :
                 substitutions_end[escape]);
 
             if (control != '\\'             &&
                 !substitutions_end[control] &&
-                substitutions_begin[ASCII_MAX * offset + control])
+                substitutions_begin[ctrl_i])
                 text++;
 
             continue;
         }
 
         if (substitutions_begin[*text])
-        {
             status[*text] = !status[*text];
-            result_len += strlen(
-                status[*text] ?
-                    substitutions_begin[*text] :
-                    substitutions_end[*text]
-            );
-        }
+
+        char* substitution = status[*text] ?
+            substitutions_begin[*text] :
+            substitutions_end[*text];
+
+        if (substitution)
+            result_len += strlen(substitution);
 
         else result_len++;
     }
@@ -147,10 +147,10 @@ char* substitute_escapes(char* text)
 
             char escape  = text[0];
             char control = text[1];
-            int  offset  = escape == '^' ? 1 : 2;
+            int  ctrl_i  = ASCII_MAX * (escape == '^' ? 1 : 2) + control;
 
-            char* substitution = substitutions_begin[ASCII_MAX * offset + control] ?
-                substitutions_begin[ASCII_MAX * offset + control] :
+            char* substitution = substitutions_begin[ctrl_i] ?
+                substitutions_begin[ctrl_i] :
                 substitutions_end[escape];
 
             while (*substitution)
@@ -158,7 +158,7 @@ char* substitute_escapes(char* text)
 
             if (control != '\\'             &&
                 !substitutions_end[control] &&
-                substitutions_begin[ASCII_MAX * offset + control])
+                substitutions_begin[ctrl_i])
                 text++;
 
             continue;
