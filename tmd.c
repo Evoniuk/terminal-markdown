@@ -14,8 +14,9 @@ int result_len(char* text, char** substitutions_begin, char** substitutions_end)
     {
         if (*text == '\\') // skip past escaped chars
         {
-            text += 2;
+            text++;
             result_len++;
+            continue;
         }
 
         if (*text == '^' || *text == '|')
