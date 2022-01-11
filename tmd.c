@@ -20,20 +20,21 @@ int result_len(char* text, char** substitutions_begin, char** substitutions_end)
 
         if (*text == '^' || *text == '|')
         {
-            if (text[0] == text[1]) continue;
+            while (text[0] == text[1]) text++;
 
             char escape  = text[0];
             char control = text[1];
             int  offset  = escape == '^' ? 1 : 2;
 
-            if (substitutions_begin[ASCII_MAX * offset + control])
-                result_len += strlen(substitutions_begin[ASCII_MAX * offset + control]);
-            else result_len += strlen(substitutions_end[escape]);
+            result_len += strlen(substitutions_begin[ASCII_MAX * offset + control] ?
+                substitutions_begin[ASCII_MAX * offset + control] :
+                substitutions_end[escape]);
 
-            if (control == '\\' || substitutions_end[control]) continue;
-            if (!substitutions_begin[ASCII_MAX * offset + control]) result_len++;
+            if (control != '\\'             &&
+                !substitutions_end[control] &&
+                substitutions_begin[ASCII_MAX * offset + control])
+                text++;
 
-            text++;
             continue;
         }
 
