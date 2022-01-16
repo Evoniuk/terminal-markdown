@@ -50,6 +50,8 @@ To get started, type the following into your terminal:
 
 If everything works right, this will display a brief tutorial on how to use terminal markdown.
 
+You can also try calling `tmd --help` or `tmd -h`.
+
 ## How do I use it?
 
 Terminal markdown works much like markdown. Text is styled by wrapping it in special characters.
@@ -95,6 +97,15 @@ For longer text it might be easier to put your text into files and call tmd like
 ### Use it as a C library
 
 To make use of tmd within your own programs, you can `#include tmd.h` and compile with `tmd.c`.
+
+This will expose two functions:
+
+- `void format_and_print(char* text, bool format)`
+- `char* substitute_escapes(char* text, bool format)`
+
+`void format_and_print(char* text, bool format)` will print and format your text if `format` is `true`. It will print unformatted text (the same text but without any styling) if `format` is `false`.
+
+`char* substitute_escapes(char* text, bool format)` will return the formatted version of `text` if `format` is `true`, and the unformatted version if `format` is `false`. The return value of this function must be `free`'d.
 
 ## How does it work?
 
