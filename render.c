@@ -54,7 +54,7 @@ char* read_stdin()
     int text_index    = 0;
     char* text = calloc(text_capacity, sizeof(char));
 
-    for (char c; (c = getchar()) != EOF; text_index++)
+    for (int c; (c = getchar()) != EOF; text_index++)
     {
         if (text_index == text_capacity - 1) // -1 to guarantee space for NULL
         {
