@@ -9,7 +9,14 @@ char* file_contents(FILE* file);
 
 int main(int argc, char** argv)
 {
-    if (argc == 2 && (!strcmp(argv[1], "--help") || !strcmp(argv[1], "-h"))) // help message
+    argv++; // advance to first actual argument
+
+    bool help_flag     = *argv && (!strcmp(*argv, "-h") || !strcmp(*argv, "--help"));
+    bool unformat_flag = *argv && (!strcmp(*argv, "-u") || !strcmp(*argv, "--unformatted"));
+
+    if (unformat_flag) argv++;
+
+    if (argc == 2 && help_flag) // help message
     {
         char* help_lines[] = {
             "The special characters are:",
@@ -37,20 +44,20 @@ int main(int argc, char** argv)
 
         for (int i = 0; help_lines[i]; i++)
         {
-            char* formatted_line = substitute_escapes(help_lines[i]);
+            char* formatted_line = substitute_escapes(help_lines[i], true);
             puts(formatted_line);
             free(formatted_line);
         }
     }
 
-    else if (argc == 1) // read from stdin if no files provided
+    else if (argc == 1 || (argc == 2 && unformat_flag)) // read from stdin if no files provided
     {
         char* original_text = read_stdin();
-        format_and_print(original_text);
+        format_and_print(original_text, !unformat_flag);
         free(original_text);
     }
 
-    else for (argv++; *argv; argv++) // advance to first arg, then iterate through
+    else for (; *argv; argv++)
     {
         FILE* file = fopen(*argv, "r");
 
@@ -62,7 +69,7 @@ int main(int argc, char** argv)
         }
 
         char* original_text = file_contents(file);
-        format_and_print(original_text);
+        format_and_print(original_text, !unformat_flag);
 
         free(original_text);
         fclose(file);

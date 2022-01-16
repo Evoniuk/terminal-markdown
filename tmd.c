@@ -5,7 +5,7 @@
 
 #define ASCII_MAX 0x80
 
-int result_len(char* text, char** substitutions_begin, char** substitutions_end)
+int result_len(char* text, char** substitutions_begin, char** substitutions_end, bool format)
 {
     int  result_len        = 0;
     bool status[ASCII_MAX] = {0};
@@ -27,7 +27,7 @@ int result_len(char* text, char** substitutions_begin, char** substitutions_end)
             char control = text[1];
             int  ctrl_i  = ASCII_MAX * (escape == '^' ? 1 : 2) + control;
 
-            result_len += strlen(substitutions_begin[ctrl_i] ?
+            if (format) result_len += strlen(substitutions_begin[ctrl_i] ?
                 substitutions_begin[ctrl_i] :
                 substitutions_end[escape]);
 
@@ -46,10 +46,10 @@ int result_len(char* text, char** substitutions_begin, char** substitutions_end)
             substitutions_begin[*text] :
             substitutions_end[*text];
 
-        if (substitution)
+        if (format && substitution)
             result_len += strlen(substitution);
 
-        else result_len++;
+        else if (!substitution) result_len++;
     }
 
     return result_len + 1;
@@ -113,7 +113,7 @@ void init_substitutions(char** substitutions_begin, char** substitutions_end)
     substitutions_begin[ASCII_MAX * 2 + 'C'] = "\e[106m"; // bright cyan
 }
 
-char* substitute_escapes(char* text)
+char* substitute_escapes(char* text, bool format)
 {
     for (char* text_i = text; *text_i; text_i++)
     {
@@ -131,7 +131,7 @@ char* substitute_escapes(char* text)
     char* substitutions_end[ASCII_MAX]       = {0};
     init_substitutions(substitutions_begin, substitutions_end);
 
-    char* result = calloc(result_len(text, substitutions_begin, substitutions_end), sizeof(char));
+    char* result = calloc(result_len(text, substitutions_begin, substitutions_end, format), sizeof(char));
 
     for (char* result_i = result; *text; text++)
     {
@@ -153,7 +153,7 @@ char* substitute_escapes(char* text)
                 substitutions_begin[ctrl_i] :
                 substitutions_end[escape];
 
-            while (*substitution)
+            if (format) while (*substitution)
                 *result_i++ = *substitution++;
 
             if (control != '\\'             &&
@@ -171,19 +171,19 @@ char* substitute_escapes(char* text)
             substitutions_begin[*text] :
             substitutions_end[*text];
 
-        if (substitution)
+        if (format && substitution)
             while (*substitution)
                 *result_i++ = *substitution++;
 
-        else *result_i++ = *text;
+        else if (!substitution) *result_i++ = *text;
     }
 
     return result;
 }
 
-void format_and_print(char* text)
+void format_and_print(char* text, bool format)
 {
-    char* formatted_text = substitute_escapes(text);
+    char* formatted_text = substitute_escapes(text, format);
     if (!formatted_text) return;
     printf("%s", formatted_text);
     free(formatted_text);
