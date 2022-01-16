@@ -9,7 +9,7 @@ char* file_contents(FILE* file);
 
 int main(int argc, char** argv)
 {
-    if (argc == 2 && !strcmp(argv[1], "--help")) // help message
+    if (argc == 2 && (!strcmp(argv[1], "--help") || !strcmp(argv[1], "-h"))) // help message
     {
         char* help_lines[] = {
             "The special characters are:",
