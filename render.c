@@ -6,6 +6,7 @@
 
 char* read_stdin();
 char* file_contents(FILE* file);
+void  print_help_message();
 
 int main(int argc, char** argv)
 {
@@ -16,39 +17,8 @@ int main(int argc, char** argv)
 
     if (unformat_flag) argv++;
 
-    if (argc == 2 && help_flag) // help message
-    {
-        char* help_lines[] = {
-            "The special characters are:",
-            "    \\#  : #BOLD#",
-            "    \\~  : ~DIM~",
-            "    \\*  : *ITALIC*",
-            "    \\_  : _UNDERLINED_",
-            "    \\@  : @BLINKING@",
-            "    \\$  : $INVERTED$",
-            "    \\`  : `HIDDEN` ~(hidden)~",
-            "    \\%  : %STRIKETHROUGH%",
-            "    \\^X : ^rFO^gRE^yGR^bOU^mND^cS^",
-            "    \\|X : |rBA|gCK|yGR|bOU|mND|cS|",
-            "The available colors are:",
-            "    X = l : ^l BLACK      ^ L : ^L WHITE          ^ ~('l' for 'lightness')~",
-            "    X = r : ^r RED        ^ R : ^R BRIGHT RED     ^",
-            "    X = g : ^g GREEN      ^ G : ^G BRIGHT GREEN   ^",
-            "    X = y : ^y YELLOW     ^ Y : ^Y BRIGHT YELLOW  ^",
-            "    X = b : ^b BLUE       ^ B : ^B BRIGHT BLUE    ^",
-            "    X = c : ^c CYAN       ^ C : ^C BRIGHT CYAN    ^",
-            "    X = m : ^m MAGENTA    ^ M : ^M BRIGHT MAGENTA ^",
-            "Use a backslash to escape these characters.",
-            NULL,
-        };
-
-        for (int i = 0; help_lines[i]; i++)
-        {
-            char* formatted_line = substitute_escapes(help_lines[i], true);
-            puts(formatted_line);
-            free(formatted_line);
-        }
-    }
+    if (argc == 2 && help_flag)
+        print_help_message();
 
     else if (argc == 1 || (argc == 2 && unformat_flag)) // read from stdin if no files provided
     {
@@ -110,4 +80,50 @@ char* file_contents(FILE* file)
     fread(buffer, sizeof(char), numbytes, file);
 
     return buffer;
+}
+
+void print_help_message()
+{
+    char* help_lines[] = {
+        "_#Options:#                                   _",
+        "",
+        "    |b #-u# |B #_--unformatted_#                    |",
+        "    |b    |B *Prints text without any styling.* |",
+        "",
+        "    |b #-h# |B #_--help_#                           |",
+        "    |b    |B *Prints help information.*         |",
+        "",
+        "_#Special Characters:#                        _",
+        "",
+        "    ^G\\#^  : #BOLD#",
+        "    ^G\\~^  : ~DIM~",
+        "    ^G\\*^  : *ITALIC*",
+        "    ^G\\_^  : _UNDERLINED_",
+        "    ^G\\@^  : @BLINKING@",
+        "    ^G\\$^  : $INVERTED$",
+        "    ^G\\`^  : `HIDDEN` ~(hidden)~",
+        "    ^G\\%^  : %STRIKETHROUGH%",
+        "    ^G\\^^MX^ : ^rFO^gRE^yGR^bOU^mND^cS^",
+        "    ^G\\|^MX^ : |rBA|gCK|yGR|bOU|mND|cS|",
+        "",
+        "_#Available Colors:#                          _",
+        "",
+        "    ^MX^ = l : ^lBLACK    ^ L : ^LWHITE          ^ ~('l' for 'lightness')~",
+        "    ^MX^ = r : ^rRED      ^ R : ^RBRIGHT RED     ^",
+        "    ^MX^ = g : ^gGREEN    ^ G : ^GBRIGHT GREEN   ^",
+        "    ^MX^ = y : ^yYELLOW   ^ Y : ^YBRIGHT YELLOW  ^",
+        "    ^MX^ = b : ^bBLUE     ^ B : ^BBRIGHT BLUE    ^",
+        "    ^MX^ = c : ^cCYAN     ^ C : ^CBRIGHT CYAN    ^",
+        "    ^MX^ = m : ^mMAGENTA  ^ M : ^MBRIGHT MAGENTA ^",
+        "",
+        "*Use a backslash to escape these characters.*",
+        NULL,
+    };
+
+    for (int i = 0; help_lines[i]; i++)
+    {
+        char* formatted_line = substitute_escapes(help_lines[i], true);
+        puts(formatted_line);
+        free(formatted_line);
+    }
 }
