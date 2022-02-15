@@ -85,7 +85,7 @@ Piping allows combination with other programs:
 
 ```zsh
 % cat intro.tmd | tmd
-% curl https://raw.githubusercontent.com/Evoniuk/terminal-markdown/master/intro.tmd | tmd
+% curl -s https://raw.githubusercontent.com/Evoniuk/terminal-markdown/master/intro.tmd | tmd
 ```
 
 For longer text it might be easier to put your text into files and call tmd like so:
