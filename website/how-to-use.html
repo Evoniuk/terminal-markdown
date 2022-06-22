@@ -97,9 +97,11 @@
 
     <p class="underline"><b>Use as a library</b></p>
 
-    <p>You can use tmd as a C library by #include-ing tmd.h and compiling with tmd.c. This provides two functions:</p>
+    <p>You can use tmd as a C library by #include-ing tmd.h and compiling with tmd.c. This provides three functions:</p>
 
     <p><span class="invert"><b>char* substitute_escapes(char* string, bool format)</b></span> will return the formatted version of <span class="M">text</span> if <span class="M">format</span> is <span class="M">true</span>, and the unformatted version if <span class="M">format</span> is <span class="M">false</span>. The return value of this function will need to be <span class="M">free</span>d.</p>
 
     <p><span class="invert"><b>void format_and_print(char* text, bool format)</b></span> will print and format your text if <span class="M">format</span> is <span class="M">true</span>. It will print unformatted text (the same text but without any styling) if <span class="M">format</span> is <span class="M">false</span>.</p>
+
+    <p><span class="invert"><b>char* escape_all(char* text)</b></span> will return <span class="M">text</span> but with all special characters escaped with a backslash. This is useful if you have text (such as source code) with special characters you want to style with tmd.</p>
 </body>
