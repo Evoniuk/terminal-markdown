@@ -113,6 +113,36 @@ void init_substitutions(char** substitutions_begin, char** substitutions_end)
     substitutions_begin[ASCII_MAX * 2 + 'C'] = "\e[106m"; // bright cyan
 }
 
+char* escape_all(char* text) // escapes all instances of special characters in text
+{
+    char* substitutions_begin[ASCII_MAX * 3] = {0}; // unused in this function
+    char* substitutions_end[ASCII_MAX]       = {0};
+    init_substitutions(substitutions_begin, substitutions_end);
+
+    int result_len = 1; // start with 1 for the null pointer
+    char* text_p = text;
+
+    while (*text_p)
+    {
+        result_len++;
+        if (substitutions_end[*text_p]) result_len++;
+        text_p++;
+    }
+
+    char* result = calloc(result_len, sizeof(char));
+
+    text_p = text; // reset text pointer
+    char* result_p = result;
+
+    while (*text_p)
+    {
+        if (*text_p == '\\' || substitutions_end[*text_p]) *result_p++ = '\\';
+        *result_p++ = *text_p++;
+    }
+
+    return result;
+}
+
 char* substitute_escapes(char* text, bool format)
 {
     for (char* text_i = text; *text_i; text_i++)
