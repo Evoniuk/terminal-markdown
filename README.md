@@ -101,14 +101,14 @@ To make use of tmd within your own programs, you can `#include tmd.h` and compil
 This will expose three functions:
 
 - `void format_and_print(char* text, bool format)`
+
+    Prints and formats your text if `format` is `true`. Prints unformatted text (the same text but without any styling) if `format` is `false`.
 - `char* substitute_escapes(char* text, bool format)`
+
+    Returns the formatted version of `text` if `format` is `true`. Returns the unformatted version if `format` is `false`. The return value of this function must be `free`'d.
 - `char* escape_all(char* text)`
 
-`void format_and_print(char* text, bool format)` will print and format your text if `format` is `true`. It will print unformatted text (the same text but without any styling) if `format` is `false`.
-
-`char* substitute_escapes(char* text, bool format)` will return the formatted version of `text` if `format` is `true`, and the unformatted version if `format` is `false`. The return value of this function must be `free`'d.
-
-`char* escape_all(char* text)` will return `text` but with all special characters escaped with a backslash. This is useful if you have text (such as source code) with special characters you want to style with tmd.
+    Returns `text` but with all special characters escaped with a backslash. This is useful if you have text (such as source code) with special characters you want to style with tmd. The return value of this function must be `free`'d.
 
 ## How does it work?
 
