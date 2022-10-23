@@ -92,7 +92,7 @@ $ Printable Characters:                       $
 111 0111    167       119       77      w      |c |
 111 1000    170       120       78      x      |c |
 111 1001    171       121       79      y      |c |
-111 1010    172       122       7A      z      |c |  ^r#0x5A# End Lowercase Letters^
+111 1010    172       122       7A      z      |c |  ^r#0x7A# End Lowercase Letters^
 111 1011    173       123       7B      {
 111 1100    174       124       7C      \|
 111 1101    175       125       7D      }
