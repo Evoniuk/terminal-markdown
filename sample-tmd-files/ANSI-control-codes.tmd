@@ -1,0 +1,86 @@
+#Note:# All codes begin with ^C\\x1b[^. Alternatively ^C\\033[^ or ^C\\e[^.
+
+$#CURSOR CONTROLS#                                                             $
+^C       H^                   home (0, 0)
+^C{r};{c}H^                   to (r, c)
+^C      \#A^                   up \# lines
+^C      \#B^                   down \# lines
+^C      \#C^                   right \# columns
+^C      \#D^                   left \# columns
+^C      \#E^                   to beginning of next line, \# lines down
+^C      \#F^                   to beginning of previous line, \# lines up
+^C      \#G^                   to column \#
+^C      6n^                   request cursor position (writes ^CESC[\#;\#R^ to stdout)
+
+$#ERASE FUNCTIONS#                                                             $
+      ^C J^                   erase in display (same as ^C0J^)
+      ^C0J^                   erase from cursor until end of screen
+      ^C1J^                   erase from cursor to beginning of screen
+      ^C2J^                   erase entire screen
+      ^C3J^                   erase saved lines
+      ^C K^                   erase in line (same as ^C0K^)
+      ^C0K^                   erase from cursor to end of line
+      ^C1K^                   erase start of line to the cursor
+      ^C2K^                   erase the entire line
+
+$#COLORS AND GRAPHICS#                                                         $
+#_STYLES                                                                      _#
+    #Set#         #Reset#
+    ^C1;34;{...}m     ^       set graphics modes, separated by semicolon
+    ^C0m              ^       reset all styles and colors
+    ^C1m          22m ^       bold
+    ^C2m          22m ^       dim/faint
+    ^C3m          23m ^       italic
+    ^C4m          24m ^       underline
+    ^C5m          25m ^       blinking
+    ^C7m          27m ^       inverse
+    ^C8m          28m ^       hidden ~(not widely supported)~
+    ^C9m          29m ^       strikethrough
+
+#_COLOR CODES                                                                 _#
+    #Foreground#  #Background#
+    ^C30  90      40  100^    Black   / Bright Black
+    ^C31  91      41  101^    Red     / Bright Red
+    ^C32  92      42  102^    Green   / Bright Green
+    ^C33  93      43  103^    Yellow  / Bright Yellow
+    ^C34  94      44  104^    Blue    / Bright Blue
+    ^C35  95      45  105^    Magenta / Bright Magenta
+    ^C36  96      46  106^    Cyan    / Bright Cyan
+    ^C37  97      47  107^    White   / Bright White
+    ^C39          49     ^    Default
+    ^C0           0 ^         Reset
+
+#_256 COLORS                                                                  _#
+    ^C38;5;{ID}m^             foreground, ID [0, 255]
+    ^C48;5;{ID}m^             background, ID [0, 255]
+
+#_RGB COLORS                                                                  _#
+    ^C38;2;{r};{g};{b}m^      foreground
+    ^C48;2;{r};{g};{b}m^      background
+
+$#SCREEN MODES#                                                                $
+#_SET MODE                                                                    _#
+    ^C=0h      ^              40 x 25 monochrome (text)
+    ^C=1h      ^              40 x 25 color (text)
+    ^C=2h      ^              80 x 25 monochrome (text)
+    ^C=3h      ^              80 x 25 color (text)
+    ^C=4h      ^              320 x 200 4-color (graphics)
+    ^C=5h      ^              320 x 200 monochrome (graphics)
+    ^C=6h      ^              640 x 200 monochrome (graphics)
+    ^C=7h      ^              Enables line wrapping
+    ^C=13h     ^              320 x 200 color (graphics)
+    ^C=14h     ^              640 x 200 color (16-color graphics)
+    ^C=15h     ^              640 x 350 monochrome (2-color graphics)
+    ^C=16h     ^              640 x 350 color (16-color graphics)
+    ^C=17h     ^              640 x 480 monochrome (2-color graphics)
+    ^C=18h     ^              640 x 480 color (16-color graphics)
+    ^C=19h     ^              320 x 200 color (256-color graphics)
+    ^C={value}l^              reset mode with same number values as above
+
+#_COMMON PRIVATE MODES                                                        _#
+    ^C?25l  ^                 make cursor invisible
+    ^C?25h  ^                 make cursor visible
+    ^C?47l  ^                 restore screen
+    ^C?47h  ^                 save screen
+    ^C?1049h^                 enable alternative buffer
+    ^C?1049l^                 disable alternative buffer
