@@ -1,4 +1,4 @@
-#Note:# All codes begin with ^C\\x1b[^. Alternatively ^C\\033[^ or ^C\\e[^.
+All codes begin with ^C\\x1b[^ (alternatively ^C\\033[^ or ^C\\e[^).
 
 $#CURSOR CONTROLS#                                                             $
 ^C       H^                   home (0, 0)
@@ -10,7 +10,7 @@ $#CURSOR CONTROLS#                                                             $
 ^C      \#E^                   to beginning of next line, \# lines down
 ^C      \#F^                   to beginning of previous line, \# lines up
 ^C      \#G^                   to column \#
-^C      6n^                   request cursor position (writes ^CESC[\#;\#R^ to stdout)
+^C      6n^                   write ^CESC[{row};{column}R^ to stdin
 
 $#ERASE FUNCTIONS#                                                             $
       ^C J^                   erase in display (same as ^C0J^)
@@ -48,7 +48,6 @@ $#COLORS AND GRAPHICS#                                                         $
     ^C36  96      46  106^    Cyan    / Bright Cyan
     ^C37  97      47  107^    White   / Bright White
     ^C39          49     ^    Default
-    ^C0           0 ^         Reset
 
 #_256 COLORS                                                                  _#
     ^C38;5;{ID}m^             foreground, ID [0, 255]
@@ -60,14 +59,14 @@ $#COLORS AND GRAPHICS#                                                         $
 
 $#SCREEN MODES#                                                                $
 #_SET MODE                                                                    _#
-    ^C=0h      ^              40 x 25 monochrome (text)
-    ^C=1h      ^              40 x 25 color (text)
-    ^C=2h      ^              80 x 25 monochrome (text)
-    ^C=3h      ^              80 x 25 color (text)
-    ^C=4h      ^              320 x 200 4-color (graphics)
-    ^C=5h      ^              320 x 200 monochrome (graphics)
-    ^C=6h      ^              640 x 200 monochrome (graphics)
-    ^C=7h      ^              Enables line wrapping
+     ^C=0h     ^              40 x 25 monochrome (text)
+     ^C=1h     ^              40 x 25 color (text)
+     ^C=2h     ^              80 x 25 monochrome (text)
+     ^C=3h     ^              80 x 25 color (text)
+     ^C=4h     ^              320 x 200 4-color (graphics)
+     ^C=5h     ^              320 x 200 monochrome (graphics)
+     ^C=6h     ^              640 x 200 monochrome (graphics)
+     ^C=7h     ^              enable line wrapping
     ^C=13h     ^              320 x 200 color (graphics)
     ^C=14h     ^              640 x 200 color (16-color graphics)
     ^C=15h     ^              640 x 350 monochrome (2-color graphics)
