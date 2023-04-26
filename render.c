@@ -122,8 +122,7 @@ void print_help_message()
 
     for (int i = 0; help_lines[i]; i++)
     {
-        char* formatted_line = substitute_escapes(help_lines[i], true);
-        puts(formatted_line);
-        free(formatted_line);
+        format_and_print(help_lines[i], true);
+        printf("\n");
     }
 }
