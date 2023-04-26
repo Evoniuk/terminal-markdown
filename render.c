@@ -120,9 +120,9 @@ void print_help_message()
         NULL,
     };
 
-    for (int i = 0; help_lines[i]; i++)
+    for (char** line = help_lines; *line; line++)
     {
-        format_and_print(help_lines[i], true);
+        format_and_print(*line, true);
         printf("\n");
     }
 }
