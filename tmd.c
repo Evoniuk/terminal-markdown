@@ -113,6 +113,8 @@ void init_substitutions(char** substitutions_begin, char** substitutions_end)
     substitutions_begin[ASCII_MAX * 2 + 'C'] = "\e[106m"; // bright cyan
 }
 
+// EXTERNAL
+
 char* escape_all(char* text) // escapes all instances of special characters in text
 {
     char* substitutions_begin[ASCII_MAX * 3] = {0}; // unused in this function
